@@ -1,0 +1,366 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head th:replace="fragment:: head"></head>
+<body>
+
+<header th:replace="fragment:: header"></header>
+<!-- header-end -->
+<!-- mainmenu-area-start -->
+<div th:replace="fragment:: mainmenu"></div>
+<div th:replace="fragment:: mobilemenu"></div>
+<!-- mainmenu-area-end -->
+<!-- page-title-wrapper-start -->
+<div class="page-title-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="page-title">
+                    <h3>Product Details</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- page-title-wrapper-end -->
+<!-- all-hyperion-page-start -->
+<div class="all-hyperion-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                <!-- product-simple-area-start -->
+                <div class="product-simple-area ptb-80">
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="view1">
+                                    <a class="image-link" th:href="@{'/' + ${product.imageUrl}}"><img style="width:800px; height:800px " th:src="@{'/' + ${product.imageUrl}}" alt=""></a>
+                                </div>
+                                <div class="tab-pane" id="view2">
+                                    <a class="image-link" th:href="@{'/' + ${product.imageUrl}}"><img style="width:800px; height:800px " th:src="@{'/' + ${product.imageUrl}}" alt=""></a>
+                                </div>
+                                <div class="tab-pane" id="view3">
+                                    <a class="image-link" th:href="@{'/' + ${product.imageUrl}}"><img style="width:800px; height:800px " th:src="@{'/' + ${product.imageUrl}}" alt=""></a>
+                                </div>
+                                <div class="tab-pane" id="view4">
+                                    <a class="image-link" th:href="@{'/' + ${product.imageUrl}}"><img style="width:800px; height:800px " th:src="@{'/' + ${product.imageUrl}}" alt=""></a>
+                                </div>
+                                <div class="tab-pane" id="view5">
+                                    <a class="image-link" th:href="@{'/' + ${product.imageUrl}}"><img style="width:800px; height:800px " th:src="@{'/' + ${product.imageUrl}}" alt=""></a>
+                                </div>
+                            </div>
+                            <!-- Nav tabs -->
+                            <ul class="sinple-tab-menu" role="tablist">
+                                <li class="active"><a href="#view1" data-toggle="tab"><img style="width:79px; height:99px;" th:src="@{'/' + ${product.imageUrl}}" alt="" /></a></li>
+                                <li><a href="#view2" data-toggle="tab"><img th:src="@{'/' + ${product.imageUrl}}" alt="" /></a></li>
+                                <li><a href="#view3" data-toggle="tab"><img th:src="@{'/' + ${product.imageUrl}}" alt="" /></a></li>
+                                <li><a href="#view4" data-toggle="tab"><img th:src="@{'/' + ${product.imageUrl}}" alt="" /></a></li>
+                                <li><a href="#view5" data-toggle="tab"><img th:src="@{'/' + ${product.imageUrl}}" alt="" /></a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                            <div class="product-simple-content">
+                                <div class="sinple-c-title">
+                                    <h3 th:text="@{${product.name}}"></h3>
+                                </div>
+                                <div class="checkbox">
+                                    <span><i class="fa fa-check-square" aria-hidden="true"></i>In stock</span>
+                                </div>
+                                <span> SKU:MH03</span>
+                                <div class="product-price-star star-2">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <span>(1Review)&nbsp;&nbsp;|&nbsp;&nbsp; Add Your Review </span>
+                                </div>
+                                <h4 th:text="@{${product.salePrice}+ ' VND'}"></h4>
+                                <div class="quick-add-to-cart">
+                                    <form method="post" class="cart">
+                                        <div class="numbers-row">
+                                            <label for="french-hens">Qty:</label>
+                                            <input type="number" id="french-hens" value="1">
+                                        </div>
+                                    </form>
+                                </div>
+                                <br/>
+                                <br/>
+
+                                <div class="quick-add-to-cart">
+                                    <form method="post" class="cart">
+                                        <button class="btn btn-lg btn-success" type="submit"><span class="lnr lnr-cart"></span>Add to Cart</button>
+                                    </form>
+                                </div>
+                                <br/>
+                                <!--<div class="quick-add-to-cart">
+                                    <button type="button" class="btn btn-lg btn-warning col-sm-12"><span class="lnr lnr-cart"></span>Buy Now</button>
+                                </div>-->
+                                <div class="action-heiper">
+                                    <!--<a href="#"><span class="lnr lnr-sync"></span></a>-->
+                                    <a href="#"><span class="lnr lnr-cart"></span></a>
+                                    <a href="#"><span class="lnr lnr-heart"></span></a>
+                                </div>
+                                <p>Tại cửa hàng, chúng tôi cung cấp một bộ sưu tập đa dạng của các loại trang sức, từ nhẫn, dây chuyền, vòng cổ, đến bông tai và vòng tay. Mỗi mẫu trang sức được chọn lựa kỹ lưỡng để đảm bảo chất lượng và sự độc đáo. Chúng tôi cam kết mang đến cho bạn những sản phẩm chất lượng cao, được làm thủ công bởi các nghệ nhân tài năng.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- product-simple-area-end -->
+                <div class="product-info-detailed pb-80">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="product-info-tab">
+                                <!-- Nav tabs -->
+                                <ul class="product-info-tab-menu" role="tablist">
+                                    <li class="active"><a href="#details" data-toggle="tab">details</a></li>
+                                    <li><a href="#property" data-toggle="tab">Properties</a></li>
+                                    <!-- <li><a href="#careinstru" data-toggle="tab">Care Instruction</a></li> -->
+                                    <li><a href="#warranty" data-toggle="tab">Warranty</a></li>
+                                    <!--  <li><a href="#return" data-toggle="tab">Return</a></li> -->
+                                    <li><a href="#reviews" data-toggle="tab">reviews 1</a></li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="details">
+                                        <div class="product-info-tab-content">
+                                            <p>Đằng sau từng chiếc trang sức là câu chuyện và ý nghĩa riêng biệt. Chúng tôi hy vọng rằng, khi bạn chọn một món trang sức từ cửa hàng của chúng tôi, nó sẽ trở thành một phần không thể thiếu của cuộc sống hàng ngày của bạn và mang lại niềm vui và tự tin.</p>
+                                            <ul>
+                                                <li> Brown hoodie with black detail.</li>
+                                                <li>Pullover.</li>
+                                                <li>Adjustable drawstring hood.</li>
+                                                <li>Ribbed cuffs/waistband.</li>
+                                                <li>Machine wash/dry.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="property">
+                                        <div class="product-info-tab-content">
+                                            <p>Đằng sau từng chiếc trang sức là câu chuyện và ý nghĩa riêng biệt. Chúng tôi hy vọng rằng, khi bạn chọn một món trang sức từ cửa hàng của chúng tôi, nó sẽ trở thành một phần không thể thiếu của cuộc sống hàng ngày của bạn và mang lại niềm vui và tự tin.</p>
+                                            <ul>
+                                                <li> Brown hoodie with black detail.</li>
+                                                <li>Pullover.</li>
+                                                <li>Adjustable drawstring hood.</li>
+                                                <li>Ribbed cuffs/waistband.</li>
+                                                <li>Machine wash/dry.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- <div class="tab-pane" id="careinstru">
+                                        <div class="product-info-tab-content">
+                                            <p>Chilly careinstru is just an excuse to throw on your toasty, handsome new Oslo Trek Hoodie. It features an adjustable drawstring hood and a kangaroo pocket for extra hand warmth. The ultra-soft, cozy lining will have you wishing for more brisk days.</p>
+                                            <ul>
+                                                <li> Brown hoodie with black detail.</li>
+                                                <li>Pullover.</li>
+                                                <li>Adjustable drawstring hood.</li>
+                                                <li>Ribbed cuffs/waistband.</li>
+                                                <li>Machine wash/dry.</li>
+                                            </ul>
+                                        </div>
+                                    </div> -->
+
+
+                                    <div class="tab-pane" id="warranty">
+                                        <div class="product-info-tab-content">
+                                            <p>Chilly warranty is just an excuse to throw on your toasty, handsome new Oslo Trek Hoodie. It features an adjustable drawstring hood and a kangaroo pocket for extra hand warmth. The ultra-soft, cozy lining will have you wishing for more brisk days.</p>
+                                            <ul>
+                                                <li> Brown hoodie with black detail.</li>
+                                                <li>Pullover.</li>
+                                                <li>Adjustable drawstring hood.</li>
+                                                <li>Ribbed cuffs/waistband.</li>
+                                                <li>Machine wash/dry.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="tab-pane" id="return">
+                                        <div class="product-info-tab-content">
+                                            <p>Chilly return is just an excuse to throw on your toasty, handsome new Oslo Trek Hoodie. It features an adjustable drawstring hood and a kangaroo pocket for extra hand warmth. The ultra-soft, cozy lining will have you wishing for more brisk days.</p>
+                                            <ul>
+                                                <li> Brown hoodie with black detail.</li>
+                                                <li>Pullover.</li>
+                                                <li>Adjustable drawstring hood.</li>
+                                                <li>Ribbed cuffs/waistband.</li>
+                                                <li>Machine wash/dry.</li>
+                                            </ul>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="tab-pane" id="reviews">
+                                        <div class="customer-review-top">
+                                            <h3>Customer Reviews</h3>
+                                            <h4>Plazathemes</h4>
+                                            <div class="cus-review-left">
+                                                <div class="single-customer-rating">
+                                                    <span>Quality</span>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <div class="single-customer-rating">
+                                                    <span>Price</span>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <div class="single-customer-rating">
+                                                    <span>Value</span>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cus-review-left">
+                                                <p>Plazathemes</p>
+                                                <span> Review by Plazathemes </span>
+                                                <span> Posted on 7/21/16 </span>
+                                            </div>
+                                        </div>
+                                        <div class="customer-review-bottom fix">
+                                            <h2>You're reviewing:</h2>
+                                            <h2>Bruno Compete Hoodie</h2>
+                                            <p>Your Rating <span>*</span></p>
+                                            <div class="cus-review-left">
+                                                <div class="single-customer-rating">
+                                                    <span>Price</span>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <div class="single-customer-rating">
+                                                    <span>Value</span>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <div class="single-customer-rating">
+                                                    <span> Quality</span>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="customer-review-form">
+                                            <form>
+                                                <div class="form-group contuct_f">
+                                                    <label for="exampleInputEmail1">Nickname <span>*</span></label>
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Name">
+                                                </div>
+                                                <div class="form-group contuct_f">
+                                                    <label for="exampleInputPassword1">Summary <span>*</span></label>
+                                                    <input type="email" class="form-control" id="exampleInputPassword1" placeholder="Email">
+                                                </div>
+                                                <div class="form-group contuct_f">
+                                                    <label for="exampleInputPassword1">Review <span>*</span></label>
+                                                    <textarea class="form-control" rows="3"></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-default contact-btn">Submit Review</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="hyper-banner pt-80 pb-40">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="single-banner">
+                                <a href="#"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- all-hyperion-page-end -->
+
+<!-- Icons related start -->
+<section class="icon_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-3">
+                <h4 style="padding:5px 0;"><img src="/img/004-delivery-truck.png"></h4>
+                <h5 style="padding:5px 0;">Free Home Delivery</h5>
+                <p>Whatever you order, our products ship free. Always.</p>
+            </div>
+
+            <div class="col-md-3 col-sm-3"><h4 style="padding:5px 0;"><img src="/img/003-undo-button.png"></h4>
+                <h5 style="padding:5px 0;">On-The-Spot Returns</h5>
+                <p>Didn't like it? No problem. Return it on the spot at the time of delivery.</p></div>
+
+            <div class="col-md-3 col-sm-3">
+                <h4 style="padding:5px 0;"><img src="/img/002-cash-money.png"></h4>
+                <h5 style="padding:5px 0;">C.O.D</h5>
+                <p>You can pay by Cash or Card at the time of delivery.</p></div>
+
+            <div class="col-md-3 col-sm-3">
+                <h4 style="padding:5px 0;"><img src="/img/001-tools.png"></h4>
+                <h5 style="padding:5px 0;">Free Installation</h5>
+                <p>We assemble the product, and clear away the packaging.</p></div>
+        </div>
+    </div>
+</section>
+<!-- Icons related Ends -->
+
+
+
+
+
+<!-- contact-area-start -->
+<div th:replace="fragment:: contact"></div>
+<!-- contact-area-end -->
+<!-- footer-area-start -->
+<div th:replace="fragment:: footer"></div>
+<!-- footer-area-end -->
+<!-- .copyright-area-start -->
+<div th:replace="fragment:: copyright"></div>
+
+
+<!-- all js here -->
+<!-- jquery latest version -->
+<script src="/js/vendor/jquery-1.12.0.min.js"></script>
+<!-- bootstrap js -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- owl.carousel js -->
+<script src="/js/owl.carousel.min.js"></script>
+<!-- meanmenu js -->
+<script src="/js/jquery.meanmenu.js"></script>
+<!-- jquery-ui js -->
+<script src="/js/jquery-ui.min.js"></script>
+<!-- wow js -->
+<script src="/js/wow.min.js"></script>
+<!-- nivo.slider js -->
+<script src="/js/jquery.nivo.slider.js"></script>
+<!-- magnific-popup js -->
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<!-- scrolly js -->
+<script src="/js/jquery.scrolly.js"></script>
+<!-- plugins js -->
+<script src="/js/plugins.js"></script>
+<!-- main js -->
+<script src="/js/main.js"></script>
+</body>
+</html>

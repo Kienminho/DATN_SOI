@@ -1,0 +1,191 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head th:replace="fragment:: head"></head>
+<body>
+
+<header th:replace="fragment:: header"></header>
+<!-- header-end -->
+<!-- mainmenu-area-start -->
+<div th:replace="fragment:: mainmenu"></div>
+<div th:replace="fragment:: mobilemenu"></div>
+<!-- mainmenu-area-end -->
+<!-- page-title-wrapper-start -->
+<div class="page-title-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="page-title">
+                    <h3>Thông tin của tôi</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- page-title-wrapper-end -->
+<!-- bedroom-all-product-area-start -->
+<div class="login-area ptb-80">
+    <div class="container">
+        <div class="container">
+            <div class="col-sm-12">
+                <h3>Thông tin của tôi</h3>
+                <hr />
+                <div class="col-sm-3"> <!-- required for floating -->
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs tabs-left">
+<!--                        <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>-->
+<!--                        <li><a href="#chnage_passwrd" data-toggle="tab">Change Password</a></li>-->
+<!--                        <li><a href="#deliveryaddress" data-toggle="tab">Delivery Address</a></li>-->
+<!--                        <li><a href="#reentorders" data-toggle="tab">Recent Orders</a></li>-->
+                        <li class="active"><a href="#profile" data-toggle="tab">Thông tin cá nhân</a></li>
+                        <li><a href="#look-up-warranty" data-toggle="tab">Tra cứu bảo hành</a></li>
+                        <li><a href="#warranty-registration" data-toggle="tab">Đăng kí bảo hành</a></li>
+                        <li><a href="#warranty-history" data-toggle="tab">Lịch sử bảo hành</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-9">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="profile">
+                            <div class="login-form">
+                                <form class="form-update-profile">
+                                    <div class="form-group login-page">
+                                        <label for="full-name">Họ và tên <span>*</span></label>
+                                        <input type="text" class="form-control" name="fullName" id="full-name">
+                                    </div>
+                                    <div class="form-group login-page">
+                                        <label for="email">Email <span>*</span></label>
+                                        <input type="email" class="form-control" name="email" id="email">
+                                    </div>
+                                    <div class="radio"> Giới tính:
+                                        <label>
+                                            <input name="gender" type="radio" value="Nam"> Nam
+                                        </label>
+                                        <label>
+                                            <input name="gender" type="radio" value="Nữ"> Nữ
+                                        </label>
+                                    </div>
+                                    <div class="form-group login-page">
+                                        <label for="phone">Số điện thoại <span>*</span></label>
+                                        <input type="text" class="form-control" name="phone" id="phone">
+                                    </div>
+                                    <div class="form-group login-page">
+                                        <label for="address-user">Địa chỉ <span>*</span></label>
+                                        <input type="text" class="form-control" name="address" id="address-user">
+                                    </div>
+
+                                    <button type="button" class="btn-update-profile btn btn-default login-btn">Cập nhật</button>
+                                </form>
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane " id="warranty-registration">
+                                <div class="guarantee-form">
+                                    <form class="form-register-guarantee">
+                                        <div class="form-group login-page">
+                                            <label for="code-guarantee">Mã bảo hành <span>*</span></label>
+                                            <input type="text" class="form-control" name="codeGuarantee" id="code-guarantee">
+                                        </div>
+                                        <div class="form-group login-page">
+                                            <label for="description-error">Miêu tả lỗi <span>*</span></label>
+                                            <input type="text" class="form-control" name="description" id="description-error">
+                                        </div>
+                                        <div class="form-group login-page">
+                                            <label for="phone-guarantee">Số điện thoại <span>*</span></label>
+                                            <input type="text" class="form-control" name="phone" id="phone-guarantee">
+                                        </div>
+                                        <div class="form-group login-page">
+                                            <label for="address">Địa chỉ trả hàng <span>*</span></label>
+                                            <input type="text" class="form-control" name="address" id="address">
+                                        </div>
+                                        <p class="message-error text-danger d-none"></p>
+                                        <button type="button" class="btn-register-guarantee btn btn-default login-btn">Đăng kí</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <div class="tab-pane" id="look-up-warranty">
+                            <div class="wishlist-table table-responsive">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th class="product-name"><span class="nobr">Mã bảo hành</span></th>
+                                        <th class="product-name"><span class="nobr">Tên sản phẩm</span></th>
+                                        <th class="product-name"><span class="nobr">Ngày mua</span></th>
+                                        <th class="product-price"><span class="nobr"> Ngày hết hạn </span></th>
+                                        <th class="product-name"><span class="nobr">Thời gian còn lại</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="tbody-guarantee">
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="warranty-history">
+                            <div class="wishlist-table table-responsive">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th class="product-name"><span class="nobr">Mã bảo hành</span></th>
+                                        <th class="product-name"><span class="nobr">Tên sản phẩm</span></th>
+                                        <th class="product-name"><span class="nobr">Ngày bảo hành</span></th>
+                                        <th class="product-price"><span class="nobr">Lỗi </span></th>
+                                        <th class="product-name"><span class="nobr">Trạng thái bảo hành</span></th>
+                                        <th class="product-name"><span class="nobr">Ngày hoàn tất</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="tbody-history">
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+        </div><!-- /container -->
+    </div>
+</div>
+<!-- bedroom-all-product-area-end -->
+<!-- contact-area-start -->
+<div th:replace="fragment:: contact"></div>
+<!-- contact-area-end -->
+<!-- footer-area-start -->
+<div th:replace="fragment:: footer"></div>
+<!-- footer-area-end -->
+<!-- .copyright-area-start -->
+<div th:replace="fragment:: copyright"></div>
+<!-- .copyright-area-end -->
+
+<!-- all js here -->
+<!-- jquery latest version -->
+<script src="js/vendor/jquery-1.12.0.min.js"></script>
+<!-- bootstrap js -->
+<script src="js/bootstrap.min.js"></script>
+<!-- owl.carousel js -->
+<script src="js/owl.carousel.min.js"></script>
+<!-- meanmenu js -->
+<script src="js/jquery.meanmenu.js"></script>
+<!-- jquery-ui js -->
+<script src="js/jquery-ui.min.js"></script>
+<!-- nivo.slider js -->
+<script src="js/jquery.nivo.slider.js"></script>
+<!-- magnific-popup js -->
+<script src="js/jquery.magnific-popup.min.js"></script>
+<!-- wow js -->
+<script src="js/wow.min.js"></script>
+<!-- scrolly js -->
+<script src="js/jquery.scrolly.js"></script>
+<!-- plugins js -->
+<script src="js/plugins.js"></script>
+<!-- main js -->
+<script src="js/main.js"></script>
+
+<script src="/js/Ecommerce/guarantee.js"></script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head th:replace="fragment:: head"></head>
+<body>
+
+<header th:replace="fragment:: header"></header>
+<!-- header-end -->
+<!-- mainmenu-area-start -->
+<div th:replace="fragment:: mainmenu"></div>
+<div th:replace="fragment:: mobilemenu"></div>
+<!-- mainmenu-area-end -->
+<!-- page-title-wrapper-start -->
+<div class="page-title-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="page-title">
+                    <h3>Checkout</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- page-title-wrapper-end -->
+<!-- entry-header-area start -->
+<div class="entry-header-area ptb-40">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="entry-header">
+                    <h1 class="entry-title">Checkout</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- entry-header-area end -->
+<!-- coupon-area start -->
+<div class="coupon-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="coupon-accordion">
+                    <!-- ACCORDION START -->
+                    <h3>Returning customer? <span id="showlogin">Click here to login</span></h3>
+                    <div id="checkout-login" class="coupon-content">
+                        <div class="coupon-info">
+                            <!--<p class="coupon-text">Quisque gravida turpis sit amet nulla posuere lacinia. Cras sed est sit amet ipsum luctus.</p>-->
+                            <form action="#">
+                                <p class="form-row-first">
+                                    <label>Email <span class="required">*</span></label>
+                                    <input type="text" />
+                                </p>
+                                <p class="form-row-last">
+                                    <label>Password  <span class="required">*</span></label>
+                                    <input type="text" />
+                                </p>
+                                <p class="form-row">
+                                    <input type="submit" value="Login" />
+                                    <label>
+                                        <input type="checkbox" />
+                                        Remember me
+                                    </label>
+                                </p>
+                                <p class="lost-password">
+                                    <a href="#">Lost your password?</a>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- ACCORDION END -->
+                    <!-- ACCORDION START -->
+                    <h3>Have a coupon? <span id="showcoupon">Click here to enter your code</span></h3>
+                    <div id="checkout_coupon" class="coupon-checkout-content">
+                        <div class="coupon-info">
+                            <form action="#">
+                                <p class="checkout-coupon">
+                                    <input type="text" placeholder="Coupon code" />
+                                    <input type="submit" value="Apply Coupon" />
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- ACCORDION END -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- coupon-area end -->
+<!-- checkout-area start -->
+<div class="checkout-area pb-50">
+    <div class="container">
+        <div class="row">
+            <form action="#">
+                <div class="col-lg-6 col-md-6">
+
+                    <div class="checkbox-form">
+                        <h3>Address</h3>
+                        <div class="row">
+                            <!-- Address-Coloum end -->
+                            <div class="col-md-6">
+                                <div class="checkout-form-list">
+                                    <label>Full Name <span class="required">*</span></label>
+                                    <input type="text" id="name" placeholder="" />
+                                </div>
+                            </div>
+                            <!--<div class="col-md-6">
+                                <div class="checkout-form-list">
+                                    <label>Last Name <span class="required">*</span></label>
+                                    <input type="text" placeholder="" />
+                                </div>
+                            </div>-->
+
+                            <div class="col-md-12">
+                                <div class="checkout-form-list">
+                                    <label>Address <span class="required">*</span></label>
+                                    <input type="text" id="address" placeholder="Street address" />
+                                </div>
+                            </div>
+                            <!--<div class="col-md-12">
+                                <div class="checkout-form-list">
+                                    <input type="text" placeholder="Apartment, suite, unit etc. (optional)" />
+                                </div>
+                            </div>-->
+                            <div class="col-md-12">
+                                <div class="checkout-form-list">
+                                    <label> City <span class="required">*</span></label>
+                                    <input type="text" id="city" placeholder="Thành phố Hồ Chí Minh" />
+                                </div>
+                            </div>
+                            <!--<div class="col-md-6">
+                                <div class="checkout-form-list">
+                                    <label>State / County <span class="required">*</span></label>
+                                    <input type="text" placeholder="" />
+                                </div>
+                            </div>-->
+                            <!--<div class="col-md-6">
+                                <div class="checkout-form-list">
+                                    <label>Postcode / Zip <span class="required">*</span></label>
+                                    <input type="text" placeholder="Postcode / Zip" />
+                                </div>
+                            </div>-->
+                            <div class="col-md-6">
+                                <div class="checkout-form-list">
+                                    <label>Email Address <span class="required">*</span></label>
+                                    <input type="email" id="email" name="email" placeholder="" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="checkout-form-list">
+                                    <label>Phone  <span class="required">*</span></label>
+                                    <input type="text" id="phone" placeholder="0999999999" />
+                                </div>
+                            </div>
+                            <!--<div class="col-md-12">
+                                <div class="checkout-form-list create-acc">
+                                    <input id="cbox" type="checkbox" />
+                                    <label>Create an account?</label>
+                                </div>
+                                <div id="cbox_info" class="checkout-form-list create-account">
+                                    <p>Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p>
+                                    <label>Account password  <span class="required">*</span></label>
+                                    <input type="password" placeholder="password" />
+                                </div>
+                            </div>-->
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="your-order">
+                        <h3>Your order</h3>
+                        <div class="your-order-table table-responsive">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th class="product-name">Product</th>
+                                    <th class="product-total">Total</th>
+                                </tr>
+                                </thead>
+                                <tbody class="tbody">
+                                </tbody>
+                                <tfoot>
+                                <tr class="cart-subtotal">
+                                    <th>Cart Subtotal</th>
+                                    <td><span class="cart-subtotal-price">0 đ</span></td>
+                                </tr>
+
+                                <!--<tr class="cart-subtotal">
+                                    <th>GST IN</th>
+                                    <td><span class="amount">28%</span></td>
+                                </tr>-->
+
+                                <tr class="shipping">
+                                    <th>Shipping</th>
+                                    <td>
+                                        <ul>
+                                            <!--<li>
+                                                <input type="radio" />
+                                                <label>
+                                                    Flat Rate: <span class="amount">Rs7.00</span>
+                                                </label>
+                                            </li>-->
+                                            <li>
+                                                <input checked type="radio" />
+                                                <label>Free Shipping:</label>
+                                            </li>
+                                            <li></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr class="order-total">
+                                    <th>Order Total</th>
+                                    <td><strong><span class="order-total-price">0 đ</span></strong>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="payment-method">
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingOne">
+                                        <h4 class="panel-title">
+                                            <!--<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" 	aria-controls="collapseOne">
+                                                Direct Bank Transfer
+                                            </a>-->
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                        <!--<div class="panel-body payment-content">
+                                            Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won't be shipped until the funds have cleared in our account.
+                                        </div>-->
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingTwo">
+                                        <h4 class="panel-title">
+                                            <!--<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                Cheque Payment
+                                            </a>-->
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                        <div class="panel-body payment-content">
+                                            Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingThree">
+                                        <h4 class="panel-title panel-img">
+                                            <!--<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                PayPal <img src="img/payment_c.png" alt="" />
+                                            </a>-->
+                                        </h4>
+                                    </div>
+                                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                        <div class="panel-body payment-content">
+                                            Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-button-payment">
+                                <input type="button" onclick="handleOrder()" value="Place order" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- checkout-area end -->
+<!-- contact-area-start -->
+<div th:replace="fragment:: contact"></div>
+<!-- contact-area-end -->
+<!-- footer-area-start -->
+<div th:replace="fragment:: footer"></div>
+<!-- footer-area-end -->
+<!-- .copyright-area-start -->
+<div th:replace="fragment:: copyright"></div>
+<!-- .copyright-area-end -->
+
+<!-- all js here -->
+<!-- jquery latest version -->
+<script src="/js/vendor/jquery-1.12.0.min.js"></script>
+<!-- bootstrap js -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- owl.carousel js -->
+<script src="/js/owl.carousel.min.js"></script>
+<!-- meanmenu js -->
+<script src="/js/jquery.meanmenu.js"></script>
+<!-- jquery-ui js -->
+<script src="/js/jquery-ui.min.js"></script>
+<!-- nivo.slider js -->
+<script src="/js/jquery.nivo.slider.js"></script>
+<!-- magnific-popup js -->
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<!-- wow js -->
+<script src="/js/wow.min.js"></script>
+<!-- scrolly js -->
+<script src="/js/jquery.scrolly.js"></script>
+<!-- plugins js -->
+<script src="/js/plugins.js"></script>
+<!-- main js -->
+<script src="/js/main.js"></script>
+<script src="/js/Ecommerce/checkout.js"></script>
+</body>
+</html>
