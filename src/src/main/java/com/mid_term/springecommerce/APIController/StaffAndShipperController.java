@@ -75,8 +75,8 @@ public class StaffAndShipperController {
 
     @PostMapping("reactive")
     public Object reactiveStaff(@RequestBody Map<String, String> req) {
-        String email = req.get("email");
-        StaffAndShipper existUser = staffAndShipperRepository.getUserByEmail(email);
+        Long id = Long.parseLong(req.get("id"));
+        StaffAndShipper existUser = staffAndShipperRepository.getUserById(id);
         if (existUser == null) {
             return Response.createErrorResponseModel("Nhân viên không tồn tại", false);
         }

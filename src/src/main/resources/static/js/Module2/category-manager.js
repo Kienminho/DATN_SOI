@@ -2,12 +2,11 @@ const tbody = $(".tbody");
 const btnAdd = $(".btn-add-product");
 const btnExportExcel = $("#btn-export-excel");
 const fileInput = $("#file-input");
-const productName = $("#product-name");
+const categoryName = $("#category-name");
 const productImage = $("#product-image");
-const importPrice = $("#import-price");
+const description = $("#description");
 const salePrice = $("#sale-price");
 const quantity = $("#quantity");
-const description = $("#description-product");
 const category = $("#category");
 const deletedModal = $("#delete-modal");
 const updateModal = $("#update-product-modal");
@@ -18,42 +17,28 @@ let barCode;
 //call api product
 fetchData();
 function fetchData() {
-    fetch("/api/products/get-all-products")
-        .then((res) => res.json())
-        .then((res) => {
-            displayProduct(res.data);
-        });
-}
-
-function getCategories() {
     fetch("/api/categories/get-list-category")
         .then((res) => res.json())
         .then((res) => {
-            displayListCategory(res.data);
+            displayProduct(res.data);
         })
         .catch((error) => {
-            console.error("Error:", error);
+            showToast("Có lỗi xảy ra vui lòng thử lại.", false);
         });
 }
 
 //thêm sản phẩm
 function addProduct() {
-    //validate data
     if (
         validateData(
-            productName.val(),
-            productImage.val(),
-            importPrice.val(),
-            salePrice.val(),
-            quantity.val(),
+            categoryName.val(),
             description.val(),
-            category.val()
         )
     ) {
-        const form = document.getElementById("from-add-product");
+        const form = document.getElementById("from-add-category");
         const formData = new FormData(form);
         $.ajax({
-            url: "/api/products/add-product",
+            url: "/api/categories/add-category",
             type: "POST",
             processData: false, // Prevent jQuery from processing the data
             contentType: false, // Prevent jQuery from setting the content type
@@ -65,6 +50,10 @@ function addProduct() {
                     $("#addProductModal").modal("hide");
                     showToast(data.message, true);
                     displayOneProduct(data.data);
+                }
+                else {
+                    $("#addProductModal").modal("hide");
+                    showToast(data.message, false);
                 }
             },
             error: function (error) {
@@ -78,7 +67,6 @@ function addProduct() {
 function displayProduct(arr) {
     tbody.empty();
     arr.map((p) => {
-        let imageUrl = p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:8080/${p.imageUrl}`;
         const importDate =
             p.createdDate === null
                 ? "-"
@@ -87,43 +75,10 @@ function displayProduct(arr) {
     <td><i class="bar-code fab fa-angular fa-lg text-danger me-3"></i> <strong class= "bar-code">${
             p.id
         }</strong></td>
-    <td class= "name">${p.name}</td>
-    <td>
-      <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-          class="avatar avatar-xs pull-up" title="${p.name}">
-          <img
-            src="${imageUrl}"
-            alt="Avatar" class="rounded-circle" />
-        </li>
-        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-          class="avatar avatar-xs pull-up" title="${p.name}">
-          <img
-            src="${imageUrl}"
-            alt="Avatar" class="rounded-circle" />
-        </li>
-        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-          class="avatar avatar-xs pull-up" title="${p.name}">
-          <img
-            src="${imageUrl}"
-            alt="Avatar" class="rounded-circle" />
-        </li>
-      </ul>
-    </td>
+    <td class= "name">${p.categoryName}</td>
+    <td class= "description">${p.description ?? '-'}</td>
+    <td class= "total-products">${p.totalProducts}</td>
     <td class="config">${importDate}</td>
-    <td class="import-price">${Number(p.importPrice).toLocaleString("vi", {
-            style: "currency",
-            currency: "VND",
-        })}</td>
-    <td class="sale-price">${Number(p.salePrice).toLocaleString("vi", {
-            style: "currency",
-            currency: "VND",
-        })}</td>
-    <td>${p.category.name}</td>
-    <td class="currentQuantity">${p.currentQuantity}</td>
-    <td><span class="badge bg-label-primary me-1 sale-number">${
-            p.saleNumber
-        }</span></td>
     <td>
       <div class="dropdown">
         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -140,17 +95,7 @@ function displayProduct(arr) {
     });
 }
 
-function displayListCategory(arr) {
-    category.empty();
-    category.append(`<option selected>Chọn danh mục</option>`);
-    arr.map((c) => {
-        let html = `<option value="${c.categoryName}">${c.categoryName}</option>`;
-        category.append(html);
-    });
-}
-
 function displayOneProduct(p) {
-    let imageUrl = p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:8080/${p.imageUrl}`;
     const importDate =
         p.createdDate === null
             ? "-"
@@ -160,42 +105,9 @@ function displayOneProduct(p) {
         p.id
     }</strong></td>
     <td class= "name">${p.name}</td>
-    <td>
-      <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-          class="avatar avatar-xs pull-up" title="${p.name}">
-          <img
-            src="${imageUrl}"
-            alt="Avatar" class="rounded-circle" />
-        </li>
-        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-          class="avatar avatar-xs pull-up" title="${p.name}">
-          <img
-            src="${imageUrl}"
-            alt="Avatar" class="rounded-circle" />
-        </li>
-        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-          class="avatar avatar-xs pull-up" title="${p.name}">
-          <img
-            src="${imageUrl}"
-            alt="Avatar" class="rounded-circle" />
-        </li>
-      </ul>
-    </td>
+    <td class= "description">${p.description ?? '-'}</td>
+    <td class= "total-products">${p.totalProducts ?? '-'}</td>
     <td class="config">${importDate}</td>
-    <td class="import-price">${Number(p.importPrice).toLocaleString("vi", {
-        style: "currency",
-        currency: "VND",
-    })}</td>
-    <td class="sale-price">${Number(p.salePrice).toLocaleString("vi", {
-        style: "currency",
-        currency: "VND",
-    })}</td>
-    <td>${p.category.name}</td>
-    <td class="currentQuantity">${p.currentQuantity}</td>
-    <td><span class="badge bg-label-primary me-1 sale-number">${
-        p.saleNumber
-    }</span></td>
     <td>
       <div class="dropdown">
         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -234,27 +146,12 @@ function showToast(message, isSuccess) {
 }
 
 function validateData(
-    productName,
-    productImage,
-    importPrice,
-    salePrice,
-    size,
-    ram,
-    rom,
+    categoryName,
     descriptions,
-    categorys
 ) {
-    console.log(categorys);
     if (
-        productName === "" ||
-        productImage === "" ||
-        importPrice === 0 ||
-        salePrice === 0 ||
-        size === "" ||
-        ram === null ||
-        rom === null ||
-        descriptions === "" ||
-        categorys === ""
+        categoryName === "" ||
+        descriptions === ""
     ) {
         showToast("Nhập đủ thông tin sản phẩm để thêm", false);
         return false;
@@ -269,7 +166,7 @@ function deletedProduct(element) {
 }
 
 function confirmDeleted() {
-    fetch(`/api/products/delete-product?id=${barCode}`, {
+    fetch(`/api/categories/delete-category/${barCode}`, {
         method: "DELETE",
     })
         .then((res) => res.json())
@@ -288,15 +185,8 @@ function confirmDeleted() {
 function updateProduct(element) {
     tr = $(element).closest("tr");
     $("#bar-code").val(parseInt($(tr).find(".bar-code").text()));
-    $("#product-name-update").val($(tr).find(".name").text());
-    $("#import-price-update").val(
-        convertCurrencyStringToNumber($(tr).find(".import-price").text())
-    );
-    $("#sale-price-update").val(
-        convertCurrencyStringToNumber($(tr).find(".sale-price").text())
-    );
-    $("#quantity-number-update").val(parseInt($(tr).find(".currentQuantity").text()));
-
+    $("#category-name-update").val($(tr).find(".name").text());
+    $("#description-update").val($(tr).find(".description").text());
     $(updateModal).modal("show");
 }
 
@@ -305,7 +195,7 @@ function confirmUpdateProduct() {
     const formData = new FormData(form);
 
     $.ajax({
-        url: "/api/products/update-product",
+        url: "/api/categories/update-category",
         type: "PUT",
         processData: false,
         contentType: false,
@@ -330,7 +220,7 @@ function confirmUpdateProduct() {
 }
 
 function exportExcel() {
-    fetch("/api/products/export-product-excel",{
+    fetch("/api/categories/export-category-excel",{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -341,11 +231,11 @@ function exportExcel() {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = "Product-Statistics.xlsx";
+            a.download = "Categories-Statistics.xlsx";
             a.click();
         })
         .catch(error => {
-            showToast('Error downloading Excel:', false);
+            showToast('Lỗi tải file, vui lòng thử lại sau.:', false);
         });
 }
 

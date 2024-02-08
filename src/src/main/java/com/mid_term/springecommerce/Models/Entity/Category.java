@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +19,10 @@ public class Category {
     private Long id;
     @Column(columnDefinition = "nvarchar(50)")
     private String name;
-    private boolean is_activated;
-    private boolean is_deleted;
+    @Column(columnDefinition = "nvarchar(1000)")
+    private String description;
+    private boolean is_activated = true;
+    private boolean is_deleted = false;
+    private Date createdDate = new Date();
+    private Date updatedDate;
 }

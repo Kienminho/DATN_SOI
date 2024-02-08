@@ -6,15 +6,23 @@ import com.mid_term.springecommerce.Models.Entity.*;
 import com.mid_term.springecommerce.Models.RequestModel.OrderItemRequest;
 import com.mid_term.springecommerce.Models.RequestModel.OrderRequest;
 import com.mid_term.springecommerce.Repositorys.*;
+import com.mid_term.springecommerce.Services.ExcelExportService;
 import com.mid_term.springecommerce.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -45,6 +53,9 @@ public class APIProductController {
 
     @Autowired
     private GuaranteeRepository guaranteeRepository;
+
+    @Autowired
+    private ExcelExportService excelExportService;
 
     @GetMapping("get-all-products")
     public Object getAllProducts() {
@@ -201,51 +212,47 @@ public class APIProductController {
     }
 
     // ----------------------------------------------------------------
-    @PostMapping("add-product")
-    public Object addProduct(@ModelAttribute ProductDTO p,
-                             @RequestParam("product-image") MultipartFile image) {
-        System.out.println(p.getPrice());
-        if (!image.isEmpty()) {
-            String imageName = UUID.randomUUID() + ".jpg";
-            String imagePath = uploadPath+ imageName;
-            File f = new File(uploadPath);
-            if(!f.exists()) {
-                f.mkdir();
+    @PostMapping(value = "add-product", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public Object AddProduct(@ModelAttribute ProductDTO req, @RequestParam("productImage") MultipartFile image) {
+        try {
+            String name = req.getName().trim();
+            if (!image.isEmpty()) {
+
+                String imageLink = saveImage(name, image);
+                Product newProduct = addProduct(req, imageLink);
+                if (newProduct != null)
+                    return Response.createSuccessResponseModel(1, newProduct);
             }
-
-            try {
-                // Save image to the specified path
-                Files.copy(image.getInputStream(), Paths.get(imagePath));
-                //Files.write(Paths.get(uploadPath, imageName), image.getBytes());
-                Category c = categoryRepository.getReferenceById(Long.parseLong(p.getCategory()));
-                Product newProduct = new Product(p.getName(), p.getPrice(),c, p.getDescription());
-                // Set the image path as the product's urlImage
-                newProduct.setImageUrl("/images/"+imageName);
-
-                // Save product to the database
-                productRepository.save(newProduct);
-
-                return Response.createSuccessResponseModel(0, true);
-            } catch (IOException e) {
-                e.printStackTrace(); // Handle the exception appropriately
-                return Response.createErrorResponseModel("Error saving image", false);
-            }
-        } else {
-            // Handle the case when no image is provided
-            return Response.createErrorResponseModel("Image is required", false);
+            return Response.createErrorResponseModel("Vui lòng thử lại.", false);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return Response.createErrorResponseModel(ex.getMessage(), ex);
         }
     }
 
-    @PostMapping("update-product")
-    public  Object updateProduct(@RequestBody ProductRequest req) {
+    @PutMapping(value = "update-product", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public  Object updateProduct(@ModelAttribute ProductRequest req, @RequestParam("productImageUpdate") MultipartFile image){
         try {
+            Long id = req.getBarCode();
+            Product p = productRepository.getDetailProduct(id);
+
+            if(!image.isEmpty()) {
+                deleteImage(p.getImageUrl());
+                String newImageLink = saveImage(p.getName(), image);
+                p.setImageUrl(newImageLink);
+            }
             String name = req.getName();
-            Long id = Long.parseLong(req.getId());
-            int price = Integer.parseInt(req.getPrice());
-            String description = req.getDescription();
+            int importPrice = req.getImportPrice();
+            int salePrice = req.getPriceSale();
+            int quantity = req.getQuantityNumber();
+            p.setName(name);
+            p.setImportPrice(importPrice);
+            p.setSalePrice(salePrice);
+            p.setCurrentQuantity(quantity);
+            p.setUpdatedDate(new Date());
 
             //update product
-            productRepository.updateProduct(id, name, price, description);
+            productRepository.save(p);
             return Response.createSuccessResponseModel(0, true);
         }
         catch (Exception e) {
@@ -260,4 +267,81 @@ public class APIProductController {
         return Response.createSuccessResponseModel(0, true);
     }
 
+    @GetMapping("export-product-excel")
+    public Object exportExcel() {
+        List<Product> products = productRepository.getAllProduct();
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            excelExportService.exportProductsToExcel(products, outputStream);
+            byte[] excelBytes = outputStream.toByteArray();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+            headers.setContentDispositionFormData("attachment", "products.xlsx");
+            headers.setContentLength(excelBytes.length);
+
+            return new ResponseEntity<>(excelBytes, headers, HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("import-product-excel")
+    public Object importProductExcel(@RequestBody List<ProductDTO> req) {
+        try {
+            List<Product> products = new ArrayList<>();
+            for (ProductDTO product : req) {
+                String categoryName = product.getCategoryName();
+                Category c = categoryRepository.findByName(categoryName);
+                String name = product.getName();
+                int importPrice = product.getImportPrice();
+                int priceSale = product.getPriceSale();
+                String desc = product.getDescription();
+                Product newProduct = new Product(name, desc, product.getImage(), importPrice, priceSale, product.getQuantity(), c, product.getCreatedDate());
+                products.add(newProduct);
+            }
+            productRepository.saveAll(products);
+            return Response.createSuccessResponseModel(products.size(), true);
+        }
+        catch (Exception e) {
+            return Response.createErrorResponseModel(e.getMessage(), false);
+        }
+    }
+
+    private Product addProduct(ProductDTO req, String imageLink) {
+        try {
+            String categoryName = req.getCategoryName();
+            Category c = categoryRepository.findByName(categoryName);
+            String name = req.getName();
+            int importPrice = req.getImportPrice();
+            int priceSale = req.getPriceSale();
+            String desc = req.getDescription();
+            Product newProduct = new Product(name, desc, imageLink, importPrice, priceSale, req.getQuantity(), c);
+            productRepository.save(newProduct);
+            return newProduct;
+        }
+        catch (Exception ex) {
+            return null;
+        }
+    }
+
+    private String saveImage(String name, MultipartFile image) throws IOException {
+        String imageName = UUID.randomUUID() + ".jpg";
+        String imagePath = uploadPath + imageName;
+        File f = new File(uploadPath);
+        if (!f.exists()) {
+            f.mkdir();
+        }
+        // Save image to the specified path
+        Files.copy(image.getInputStream(), Paths.get(imagePath));
+        return "images/" + imageName;
+    }
+
+    private void deleteImage(String path) {
+        String imagePath = "upload/" + path;
+        File f = new File(imagePath);
+        if (f.exists()) {
+            f.delete();
+        }
+    }
 }

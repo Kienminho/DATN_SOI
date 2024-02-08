@@ -92,14 +92,14 @@
                 <!-- Content -->
 
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Quản lý sản phẩm</h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Quản lý danh mục</h4>
 
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <div>
-                            <h5 class="card-header">Sản phẩm</h5>
+                            <h5 class="card-header">Danh mục</h5>
                             <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary"
-                                    data-bs-toggle="modal" data-bs-target="#addProductModal" onclick="getCategories()">Thêm sản phẩm</button>
+                                    data-bs-toggle="modal" data-bs-target="#addProductModal">Thêm danh mục</button>
                             <input type="file" id="file-input" class="d-none">
                             <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary" id="btn-import-excel" onclick="importExcel()">Nhập dữ liệu</button>
                             <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary" id="btn-export-excel" onclick="exportExcel()">Xuất dữ liệu</button>
@@ -110,15 +110,11 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Mã sản phẩm</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Hình ảnh</th>
-                                    <th>Ngày nhập</th>
-                                    <th>Giá nhập</th>
-                                    <th>Giá bán</th>
-                                    <th>Loại</th>
-                                    <th>Số lượng kho</th>
-                                    <th>Số lượng bán</th>
+                                    <th>Mã loại</th>
+                                    <th>Tên loại sản phẩm</th>
+                                    <th>Mô tả</th>
+                                    <th>Số lượng sản phẩm</th>
+                                    <th>Ngày tạo</th>
                                     <th>Thao tác</th>
                                 </tr>
                                 </thead>
@@ -142,49 +138,19 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="add-product-modal-label">Thêm sản phẩm</h5>
+                <h5 class="modal-title" id="add-product-modal-label">Thêm danh mục</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="from-add-product" enctype="multipart/form-data">
+                <form id="from-add-category" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label for="product-name">Tên sản phẩm <span class="text-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder="Nhập tên sản phẩm" id="product-name"
+                        <label for="category-name">Tên danh mục <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" placeholder="Nhập tên danh mục" id="category-name"
                                name="name">
                     </div>
                     <div class="mb-3">
-                        <label for="product-image">Ảnh sản phẩm <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <input type="file" class="form-control" id="product-image" name="productImage"
-                                   aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="import-price">Giá nhập sản phẩm <span class="text-danger">*</span></label>
-                        <input class="form-control" type="number" placeholder="Nhập giá nhập" id="import-price" name="importPrice">
-                    </div>
-                    <div class="mb-3">
-                        <label for="sale-price">Giá bán sản phẩm <span class="text-danger">*</span></label>
-                        <input class="form-control" type="number" placeholder="Nhập giá bán" id="sale-price" name="priceSale">
-                    </div>
-                    <div class="mb-3">
-                        <label for="quantity">Số lượng nhập <span class="text-danger">*</span></label>
-                        <input class="form-control" type="number" placeholder="Nhập giá bán" id="quantity" name="quantity">
-                    </div>
-                    <div class="mb-3">
-                        <label for="description-product">Mô tả <span class="text-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder="Nhập mô tả" id="description-product"
-                               name="description">
-                    </div>
-                    <div class="mb-3">
-                        <label for="category">Danh mục <span class="text-danger">*</span></label>
-                        <select class="form-select" aria-label="Default select example" id="category" name="categoryName">
-                            <option selected>Chọn danh mục</option>
-                            <!--<option value="Dây chuyền">Dây chuyền</option>
-                            <option value="Vòng tay">Vòng tay</option>
-                            <option value="Combo quà tặng">Combo quà tặng</option>-->
-                        </select>
+                        <label for="description">Mô tả <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" placeholder="Nhập mô tả" id="description" name="description">
                     </div>
                 </form>
             </div>
@@ -201,39 +167,21 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="update-product-modal-label">Cập nhật sản phẩm</h5>
+                <h5 class="modal-title" id="update-product-modal-label">Cập nhật danh mục</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="from-update-product" enctype="multipart/form-data">
-                    <input class="form-control d-none" type="number" id="bar-code" name="barCode">
+                <form id="from-update-product">
+                    <input class="form-control d-none" type="number" id="bar-code" name="id">
                     <div class="mb-3">
-                        <label for="product-name">Tên sản phẩm</label>
-                        <input class="form-control" type="text" placeholder="Nhập tên sản phẩm" id="product-name-update"
+                        <label for="category-name-update">Tên danh mục</label>
+                        <input class="form-control" type="text" placeholder="Nhập tên danh mục" id="category-name-update"
                                name="name">
                     </div>
                     <div class="mb-3">
-                        <label for="product-image-update">Ảnh sản phẩm</label>
-                        <div class="input-group">
-                            <input type="file" class="form-control" id="product-image-update" name="productImageUpdate"
-                                   aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="import-price-update">Giá nhập sản phẩm</label>
-                        <input class="form-control" type="number" placeholder="Nhập giá nhập" id="import-price-update"
-                               name="importPrice">
-                    </div>
-                    <div class="mb-3">
-                        <label for="sale-price-update">Giá bán sản phẩm</label>
-                        <input class="form-control" type="number" placeholder="Nhập giá bán" id="sale-price-update"
-                               name="priceSale">
-                    </div>
-                    <div class="mb-3">
-                        <label for="quantity-number-update">Số lượng kho</label>
-                        <input class="form-control" type="number" placeholder="Nhập số lượng đã bán" id="quantity-number-update"
-                               name="quantityNumber">
+                        <label for="description-update">Mô tả</label>
+                        <input class="form-control" type="text" placeholder="Nhập mô tả" id="description-update"
+                               name="description">
                     </div>
                 </form>
             </div>
@@ -251,11 +199,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Xoá sản phẩm</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Xoá danh mục</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Bạn có muốn xoá sản phẩm này không?
+                Bạn có muốn xoá danh mục này không?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -297,5 +245,5 @@
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-<script src="/js/Module2/product-manager.js"></script>
+<script src="/js/Module2/category-manager.js"></script>
 </html>

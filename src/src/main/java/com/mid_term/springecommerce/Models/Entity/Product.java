@@ -59,12 +59,29 @@ public class Product {
         this.description = description;
     }
 
-    public Product(String name, String description, int importPrice, int salePrice, int currentQuantity, Category category) {
+    public Product(String name, String description, String imageUrl, int importPrice, int salePrice, int currentQuantity, Category category) {
         this.name = name;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.importPrice = importPrice;
         this.salePrice = salePrice;
         this.currentQuantity = currentQuantity;
         this.category = category;
+        is_activated = true;
+        is_deleted = false;
+        createdDate = new Date();
+    }
+
+    public Product(String name, String description, String imageUrl, int importPrice, int salePrice, int currentQuantity, Category category, Date createdDate) {
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.importPrice = importPrice;
+        this.salePrice = salePrice;
+        this.currentQuantity = currentQuantity;
+        this.category = category;
+        is_activated = true;
+        is_deleted = false;
+        this.createdDate = createdDate;
     }
 }

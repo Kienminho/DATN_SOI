@@ -26,4 +26,11 @@ public class M2_HomeController {
             return "redirect:/auth/login";*/
         return "Module2/productManager";
     }
+
+    @GetMapping("/category-manager")
+    public String RenderCategoryManager() {
+        /*if (!Utils.isLogin)
+            return "redirect:/auth/login";*/
+        return "Module2/categoryManager";
+    }
 }
