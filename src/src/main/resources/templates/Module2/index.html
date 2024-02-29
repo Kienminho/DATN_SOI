@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="/assets/"
       data-template="vertical-menu-template-free">
-<head th:replace="~{mainFragment :: head}"></head>
+<head th:replace="~{Module2/mainFragment :: head}"></head>
 
 <body>
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
         <!-- Menu -->
-        <aside th:replace="~{mainFragment :: aside}">
+        <aside th:replace="~{Module2/mainFragment :: aside}">
         </aside>
         <!-- / Menu -->
         <!-- Layout container -->
@@ -103,7 +103,7 @@
                                                     <input
                                                             class="from-date form-control"
                                                             type="datetime-local"
-                                                            value="2023-12-01T12:30:00"
+                                                            value="2024-02-01T12:30:00"
                                                             id="html5-datetime-local-input"
                                                             oninput="search()"
                                                     />
@@ -115,7 +115,7 @@
                                                     <input
                                                             class="to-date form-control"
                                                             type="datetime-local"
-                                                            value="2023-12-31T12:30:00"
+                                                            value="2024-02-29T12:30:00"
                                                             id="html5-datetime-local-input"
                                                             oninput="search()"
                                                     />
@@ -252,9 +252,32 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <span class="fw-semibold d-block mb-1">Số lượng</span>
+                                            <span class="fw-semibold d-block mb-1">Shipper</span>
                                             <h3 class="quantity card-title mb-2">0</h3>
-
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="card-title d-flex align-items-start justify-content-between">
+                                                <div class="avatar flex-shrink-0">
+                                                    <img src="/assets/img/icons/unicons/cc-primary.png" alt="Credit Card"
+                                                         class="rounded" />
+                                                </div>
+                                                <div class="dropdown">
+                                                    <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="false">
+                                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="cardOpt1">
+                                                        <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                                                        <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <span class="fw-semibold d-block mb-1">Người dùng</span>
+                                            <h3 class="user card-title mb-2">0</h3>
                                         </div>
                                     </div>
                                 </div>

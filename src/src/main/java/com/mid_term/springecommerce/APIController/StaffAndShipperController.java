@@ -1,25 +1,36 @@
 package com.mid_term.springecommerce.APIController;
 
-import com.mid_term.springecommerce.Models.Entity.Role;
-import com.mid_term.springecommerce.Models.Entity.StaffAndShipper;
-import com.mid_term.springecommerce.Repositorys.RoleRepository;
+import com.mid_term.springecommerce.DTO.OrderOfShipperRequest;
+import com.mid_term.springecommerce.Models.Entity.*;
+import com.mid_term.springecommerce.Repositorys.*;
 import com.mid_term.springecommerce.Services.MailService;
 import com.mid_term.springecommerce.Utils.Utils;
-import com.mid_term.springecommerce.Repositorys.StaffAndShipperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/staff-and-shipper/")
 public class StaffAndShipperController {
     @Autowired
+    private UserRepository user;
+    @Autowired
     private StaffAndShipperRepository staffAndShipperRepository;
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderOfShipperRepository orderOfShipperRepository;
+
+    @Autowired
+    private InvoiceRepository invoice;
 
     @Autowired
     private MailService mailService;
@@ -96,6 +107,108 @@ public class StaffAndShipperController {
     public Object getAllStaff() {
         try {
             return Response.createSuccessResponseModel(0, staffAndShipperRepository.getAllUser());
+        } catch (Exception ex) {
+            return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());
+        }
+    }
+
+    @GetMapping("get-list-shipper")
+    public Object getListShipper() {
+        try {
+            return Response.createSuccessResponseModel(0, staffAndShipperRepository.getAllShipper());
+        } catch (Exception ex) {
+            return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());
+        }
+    }
+
+    @PostMapping("send-order-to-shipper")
+    public Object sendOrderToShipper(@RequestBody OrderOfShipperRequest req) {
+
+        try {
+            Order order = orderRepository.getDetailById(req.orderId);
+            StaffAndShipper existUser = staffAndShipperRepository.getUserById(req.shipperId);
+            if (order == null || existUser == null) {
+                return Response.createErrorResponseModel("Không tìm thấy dữ liệu!", false);
+            }
+            order.setStatus(2);
+            orderRepository.save(order);
+            int collectionMoney = 0;
+            if (order.getPaymentMethod().equals("C")) {
+                collectionMoney = order.getTotalPrice();
+            }
+
+            OrderOfShipper orderOfShipper = new OrderOfShipper(
+                    req.shipperId,
+                    order.getPhoneNumber(),
+                    order.getName(),
+                    order.getAddress(),
+                    order.getPaymentMethod(),
+                    order.getTotalPrice(),
+                    collectionMoney,
+                    0,
+                    new Date()
+            );
+
+            orderOfShipperRepository.save(orderOfShipper);
+
+            return Response.createSuccessResponseModel(0, true);
+        } catch (Exception ex) {
+            return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());
+        }
+    }
+
+    @GetMapping("get-all-shippers")
+    public Object getAllShippers() {
+        try {
+            List<StaffAndShipper> data = staffAndShipperRepository.getAllShipper();
+            return Response.createSuccessResponseModel(data.size(), data);
+        } catch (Exception ex) {
+            return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());
+        }
+    }
+
+    @GetMapping("get-order-by-shipper-id")
+    public Object getOrderByShipperId() {
+        try {
+            List<OrderOfShipper> list = orderOfShipperRepository.getOrderByShipperId(Utils.idUserLogin);
+            return Response.createSuccessResponseModel(list.size(), list);
+        } catch (Exception ex) {
+            return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());
+        }
+    }
+
+    @PutMapping("update-status-order")
+    public Object updateStatusOrder(@RequestBody OrderOfShipperRequest req) {
+        try {
+            int result = orderOfShipperRepository.updateStatusOrder(req.orderId, req.status);
+            if (result > 0) {
+                return Response.createSuccessResponseModel(0, true);
+            }
+            return Response.createErrorResponseModel("Cập nhật trạng thái thất bại!", false);
+        } catch (Exception ex) {
+            return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());
+        }
+    }
+
+    @GetMapping("statistic")
+    public Object statistic() {
+        try {
+            List<StaffAndShipper> listStaff = staffAndShipperRepository.getAllUser();
+            List<StaffAndShipper> listShipper = staffAndShipperRepository.getAllShipper();
+            List<User> listUser = user.getAllUser();
+            List<Invoice> data = invoice.findAll();
+
+            int totalMoney = 0;
+            for (Invoice i: data) {
+                totalMoney += i.getTotalMoney();
+            }
+            return Response.createSuccessResponseModel(0, Map.of(
+                    "totalStaff", listStaff.size(),
+                    "totalShipper", listShipper.size(),
+                    "totalUser", listUser.size(),
+                    "totalMoney", totalMoney,
+                    "totalOrder", data.size()
+            ));
         } catch (Exception ex) {
             return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());
         }

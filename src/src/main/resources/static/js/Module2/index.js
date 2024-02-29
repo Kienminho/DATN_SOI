@@ -2,6 +2,7 @@ const tbody = $(".tbody");
 const tbodyDetails = $(".tbody-detail");
 const employee = $(".employee");
 const invoice = $(".invoice");
+const user = $(".user");
 const money = $(".total-money");
 const quantity = $(".quantity");
 const fromDateDefault = $(".from-date").val();
@@ -9,13 +10,14 @@ const toDateDefault = $(".to-date").val();
 
 getData(fromDateDefault, toDateDefault);
 
-fetch("/api/statistical/get-data")
+fetch("/api/staff-and-shipper/statistic")
     .then((res) => res.json())
     .then((res) => {
-        $(employee).text(res.data.userNumber);
-        $(invoice).text(res.data.invoiceNumber);
-        $(money).text(res.data.money.toLocaleString("vi-VN"));
-        $(quantity).text(res.data.quantity);
+        $(employee).text(res.data.totalStaff);
+        $(invoice).text(res.data.totalOrder);
+        $(money).text(res.data.totalMoney.toLocaleString("vi-VN"));
+        $(quantity).text(res.data.totalShipper);
+        $(user).text(res.data.totalUser);
     })
     .catch((err) => console.log(err));
 
@@ -26,7 +28,7 @@ function search() {
 }
 
 function getData(fromDate, toDate) {
-    fetch("/api/statistical/get-data-by-date", {
+    fetch("/api/orders/get-list-filter", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -44,7 +46,7 @@ function displayData(arr) {
     tbody.empty();
     arr.map((item) => {
         let html = `<tr>
-    <td><i class="fab fa-angular fa-lg text-danger me-3 r"></i> <strong onclick="deatailInvoice(this)" class="cursor-pointe id">${
+    <td><i class="fab fa-angular fa-lg text-danger me-3 r cursor-pointer"></i> <strong onclick="deatailInvoice(this)" class="cursor-pointer id">${
             item.invoiceCode
         }</strong></td>
     <td>${item.salePeople}</td>
@@ -59,7 +61,7 @@ function displayData(arr) {
 function deatailInvoice(element) {
     $("#detail-invoice-modal").modal("show");
     const id = $(element).text();
-    fetch(`/api/invoices/get-detail/${id}`)
+    fetch(`/api/orders/get-list-invoice/${id}`)
         .then((res) => res.json())
         .then((res) => {
             displayDetails(res.data);

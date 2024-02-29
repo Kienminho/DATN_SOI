@@ -14,17 +14,21 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE p.is_deleted = false")
     List<Product> getAllProduct();
+    @Query("SELECT p FROM Product p WHERE p.currentQuantity > 0 and p.is_deleted = false")
+    List<Product> getAvailableProduct();
     @Query("SELECT p FROM Product p WHERE p.category = :category and p.is_deleted = false")
     List<Product> getProductsByCategory(@Param("category")Category category);
-
     @Query("SELECT p FROM Product p WHERE p.id = :id and p.is_deleted = false")
     Product getDetailProduct(@Param("id") Long id);
 
     @Query("SELECT p FROM Product p " +
             "WHERE (LOWER(p.name) LIKE LOWER(concat('%', :keyword, '%')) " +
             "OR LOWER(p.category.name) LIKE LOWER(concat('%', :keyword, '%')) " +
-            "OR CAST(p.salePrice AS string) LIKE :keyword) " +
-            "AND p.is_deleted = false ")
+            "OR CAST(p.salePrice AS string) LIKE concat('%', :keyword, '%')) " +
+            "OR CAST(p.id AS string) LIKE concat('%', :keyword, '%') " +
+            "OR CAST(p.importPrice AS string) LIKE concat('%', :keyword, '%') " +
+            "AND p.currentQuantity > 0 " +
+            "AND p.is_deleted = false")
     List<Product> searchProducts(@Param("keyword") String keyword);
 
     @Modifying

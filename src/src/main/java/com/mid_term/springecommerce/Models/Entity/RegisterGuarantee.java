@@ -1,5 +1,6 @@
 package com.mid_term.springecommerce.Models.Entity;
 
+import com.mid_term.springecommerce.Utils.Enum.WarrantyStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,17 +34,22 @@ public class RegisterGuarantee {
 
     private String phone;
 
+    @Column(columnDefinition = "datetime")
     private Date complainDate = new Date();
 
+    @Column(columnDefinition = "nvarchar(50)")
+    private String nameStaff = null;
+
+    @Column(columnDefinition = "datetime")
     private Date guaranteeDate = null;
 
     @Column(columnDefinition = "nvarchar(255)")
     private String description;
 
     @Column(columnDefinition = "nvarchar(80)")
-    private String status;
+    private WarrantyStatus status;
 
-    public RegisterGuarantee(String codeGuarantee, Long idUser, String nameProduct, String nameCustomer, String address, String phone, String description, String status) {
+    public RegisterGuarantee(String codeGuarantee, Long idUser, String nameProduct, String nameCustomer, String address, String phone, String description, WarrantyStatus status) {
         this.codeGuarantee = codeGuarantee;
         this.idUser = idUser;
         this.nameProduct = nameProduct;

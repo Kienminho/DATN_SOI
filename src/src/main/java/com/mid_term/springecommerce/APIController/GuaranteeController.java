@@ -1,5 +1,6 @@
 package com.mid_term.springecommerce.APIController;
 
+import com.mid_term.springecommerce.DTO.GuaranteeRequest;
 import com.mid_term.springecommerce.Models.Entity.Guarantee;
 import com.mid_term.springecommerce.Models.Entity.RegisterGuarantee;
 import com.mid_term.springecommerce.Models.RequestModel.RegisterGuaranteeRequest;
@@ -43,10 +44,7 @@ public class GuaranteeController {
                 return Response.createErrorResponseModel("Sản phẩm không còn bảo hành", false);
             }
 
-            //handle register guarantee
-            WarrantyStatus status = WarrantyStatus.REGISTER;
-
-            RegisterGuarantee registerGuarantee = new RegisterGuarantee(req.getCodeGuarantee(),Utils.userLogin.getId(), guarantee.getProductName(), Utils.userLogin.getFullName(), req.getAddress(), req.getPhone(), req.getDescription(), status.getDescription());
+            RegisterGuarantee registerGuarantee = new RegisterGuarantee(req.getCodeGuarantee(),Utils.userLogin.getId(), guarantee.getProductName(), Utils.userLogin.getFullName(), req.getAddress(), req.getPhone(), req.getDescription(), WarrantyStatus.REGISTER);
             registerGuaranteeRepository.save(registerGuarantee);
             return Response.createSuccessResponseModel(0, true);
         }
@@ -60,6 +58,38 @@ public class GuaranteeController {
         try {
             List<RegisterGuarantee> registerGuarantees = registerGuaranteeRepository.getRegisterGuaranteeByIdUser(Utils.userLogin.getId());
             return Response.createSuccessResponseModel(registerGuarantees.size(), registerGuarantees);
+        }
+        catch (Exception e) {
+            return Response.createErrorResponseModel(e.getMessage(), false);
+        }
+    }
+
+    @GetMapping("get-all-guarantee")
+    public Object getAllGuarantee() {
+        try {
+            List<RegisterGuarantee> guarantees = registerGuaranteeRepository.findAll();
+            return Response.createSuccessResponseModel(guarantees.size(), guarantees);
+        }
+        catch (Exception e) {
+            return Response.createErrorResponseModel(e.getMessage(), false);
+        }
+    }
+
+    @PutMapping("update-guarantee")
+    public Object updateGuarantee(@RequestBody GuaranteeRequest req) {
+        try {
+            RegisterGuarantee registerGuarantee = registerGuaranteeRepository.getReferenceById(req.getGuaranteeId());
+            if(req.getGuaranteeDate() != null) {
+                registerGuarantee.setGuaranteeDate(req.getGuaranteeDate());
+                registerGuarantee.setStatus(req.getStatus());
+            }
+            else {
+                registerGuarantee.setStatus(req.getStatus());
+                registerGuarantee.setNameStaff(req.getNameStaff());
+            }
+
+            registerGuaranteeRepository.save(registerGuarantee);
+            return Response.createSuccessResponseModel(0, true);
         }
         catch (Exception e) {
             return Response.createErrorResponseModel(e.getMessage(), false);

@@ -30,8 +30,10 @@ public class Guarantee {
     @Column(columnDefinition = "nvarchar(100)")
     private String productName;
 
+    @Column(columnDefinition = "datetime")
     private Date purchaseDate;
 
+    @Column(columnDefinition = "datetime")
     private Date expirationDate;
 
     private int warrantyPeriodInMonths;

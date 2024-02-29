@@ -52,4 +52,10 @@ public class User {
 
         this.roles = new HashSet<>(Collections.singletonList(role));
     }
+
+    public User(String fullName, String phone, String address) {
+        this.fullName = fullName;
+        this.phone = phone;
+        this.address = address;
+    }
 }

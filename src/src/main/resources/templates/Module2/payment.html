@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="/assets/"
+      data-template="vertical-menu-template-free">
+<head th:replace="~{Module2/mainFragment :: head}"></head>
+
+<body>
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
+        <aside th:replace="~{Module2/mainFragment :: aside}">
+        </aside>
+        <!-- / Menu -->
+        <!-- Layout container -->
+        <div class="layout-page">
+            <nav
+                    class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar">
+                <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                    <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                        <i class="bx bx-menu bx-sm"></i>
+                    </a>
+                </div>
+
+                <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                    <!-- Search -->
+                    <div class="navbar-nav align-items-center">
+                        <div class="nav-item d-flex align-items-center">
+                            <!--{{!&#45;&#45; <i class="bx bx-search fs-4 lh-0"></i>
+                            <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                                   aria-label="Search..." /> &#45;&#45;}}-->
+                        </div>
+                    </div>
+                    <!-- /Search -->
+
+                    <ul class="navbar-nav flex-row align-items-center ms-auto">
+                        <!-- User -->
+                        <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                                <div class="avatar avatar-online">
+                                    <img src="/avatar/avatar.png" id="avatar-user" alt="avatar" class="w-px-40 h-auto rounded-circle" />
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 me-3">
+                                                <div class="avatar avatar-online">
+                                                    <img src="/avatar/avatar.png" alt="avatar" id="sub-avatar" class="w-px-40 h-auto rounded-circle" />
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <span class="user-name fw-semibold d-block"></span>
+                                                <small class="role text-muted"></small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="dropdown-divider"></div>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/my-profile">
+                                        <i class="bx bx-user me-2"></i>
+                                        <span class="align-middle">Hồ sơ</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="dropdown-divider"></div>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/auth/logout">
+                                        <i class="bx bx-power-off me-2"></i>
+                                        <span class="align-middle">Đăng xuất</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--/ User -->
+                    </ul>
+                </div>
+            </nav>
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Thanh toán</h4>
+                    <div class="card">
+                        <h5 class="card-header">Sản phẩm thanh toán</h5>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Số lượng</th>
+                                    <th>Giá bán</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-payment table-border-bottom-0">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <button style="margin-top: 12px;" class="btn btn-primary" type="button" onclick="checkPayment()"
+                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasEnd" aria-controls="offcanvasEnd">
+                        Tiếp tục
+                    </button>
+                    <hr class="my-5" />
+                    <div class="card">
+                        <h5 class="card-header">Tất cả sản phẩm</h5>
+                        <div style="margin-left: auto; margin-right: auto; width: 96%" class="pb-12 input-group input-group-merge">
+                            <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+                            <input type="text" class="keywords form-control" placeholder="Search..." aria-label="Search..."
+                                   aria-describedby="basic-addon-search31" oninput="searchProduct()" />
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Ngày nhập</th>
+                                    <th>Giá nhập</th>
+                                    <th>Giá bán</th>
+                                    <th>Loại</th>
+                                    <th>Số lượng kho</th>
+                                    <th>Số lượng bán</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                                </thead>
+                                <tbody class="tbody table-border-bottom-0">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-backdrop fade"></div>
+            <!-- Content wrapper -->
+        </div>
+    </div>
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+
+<div class="col-lg-3 col-md-6">
+    <small class="text-light fw-semibold mb-3">End</small>
+    <div class="mt-3">
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd" aria-labelledby="offcanvasEndLabel">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasEndLabel" class="offcanvas-title">Kiểm tra đơn hàng</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body  mx-0 flex-grow-0">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label" for="basic-default-fullname">Số điện thoại</label>
+                        <input type="text" class="form-control" id="phone-number" placeholder="09*****"
+                               oninput="getCustomerProfile()" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="basic-default-fullname">Tên khách hàng</label>
+                        <input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="basic-default-address">Địa chỉ</label>
+                        <input type="text" class="form-control" id="address" placeholder="TDTU" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="basic-default-quantity">Số lượng</label>
+                        <input disabled type="text" class="form-control" id="quantity" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="basic-default-totalmoney">Tổng tiền</label>
+                        <input disabled type="text" id="totalmoney" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="basic-default-money-recevier">Sô tiền nhận</label>
+                        <input type="text" id="money-recevier" class="form-control" oninput="calcMoney()" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="basic-default-money-back">Tiền thừa</label>
+                        <input disabled type="text" id="money-back" class="form-control" />
+                    </div>
+                </form>
+                <div class="spinner d-none mb-3 d-flex flex-column justify-content-center align-items-center">
+                    <div class="spinner-border text-primary align-items-center" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+
+                <button type="button" onclick="handlePay()" class="btn-payment btn btn-primary mb-2 d-grid w-100">Thanh
+                    toán</button>
+                <button type="button" class="btn-cancel btn btn-outline-secondary d-grid w-100"
+                        data-bs-dismiss="offcanvas">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast message --->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="liveToast" class="bg-success text-white toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="/assets/vendor/libs/popper/popper.js"></script>
+<script src="/assets/vendor/js/bootstrap.js"></script>
+<script src="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="/assets/vendor/js/menu.js"></script>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+<script src="/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+<!-- Main JS -->
+<script src="/assets/js/main.js"></script>
+
+<!-- Page JS -->
+<script src="/assets/js/dashboards-analytics.js"></script>
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="/js/Module2/payment.js"></script>
+</html>

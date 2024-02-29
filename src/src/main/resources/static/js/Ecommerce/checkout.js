@@ -8,6 +8,22 @@ let address = $('#address');
 let city = $('#city');
 let email = $('#email');
 let phone = $('#phone');
+let selectedValue = "";
+
+// Get all radio buttons with name "paymentType"
+const radioButtons = document.querySelectorAll('input[name="paymentType"]');
+
+// Add event listener for change event
+radioButtons.forEach(radioButton => {
+    radioButton.addEventListener('change', function() {
+        // Get the value of the selected radio button
+        selectedValue = this.value;
+
+        // Log the selected value (you can use it for further processing)
+        console.log(selectedValue);
+    });
+});
+
 fetch("/api/products/cart")
     .then(res => res.json())
     .then(res => {
@@ -25,7 +41,8 @@ function handleOrder() {
             phone: phone.val(),
             email: email.val(),
             city: city.val(),
-            orderItems: orderItems
+            orderItems: orderItems,
+            paymentMethod: selectedValue
         }
 
         fetch("/api/products/checkout-order", {
@@ -52,7 +69,6 @@ function validateForm() {
         alert('Vui lòng kiểm tra lại thông tin đặt hàng.');
         return false;
     }
-
     return true;
 }
 

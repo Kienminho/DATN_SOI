@@ -1,11 +1,15 @@
 package com.mid_term.springecommerce.APIController;
 
+import com.mid_term.springecommerce.DTO.CartRequest;
+import com.mid_term.springecommerce.DTO.InvoiceRequest;
 import com.mid_term.springecommerce.DTO.ProductDTO;
 import com.mid_term.springecommerce.DTO.ProductRequest;
 import com.mid_term.springecommerce.Models.Entity.*;
 import com.mid_term.springecommerce.Models.RequestModel.OrderItemRequest;
 import com.mid_term.springecommerce.Models.RequestModel.OrderRequest;
+import com.mid_term.springecommerce.Models.ResponseModel.UserResponse;
 import com.mid_term.springecommerce.Repositorys.*;
+import com.mid_term.springecommerce.Services.CommonService;
 import com.mid_term.springecommerce.Services.ExcelExportService;
 import com.mid_term.springecommerce.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -30,11 +33,21 @@ import java.util.*;
 @RequestMapping("/api/products/")
 public class APIProductController {
 
+
     @Value("${spring.servlet.multipart.location}")
     private String uploadPath;
 
+    @Value("${pdf.outputDirectory}")
+    private String outputDirectory;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CartOfEmployeeRepository cartOfEmployeeRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -55,12 +68,35 @@ public class APIProductController {
     private GuaranteeRepository guaranteeRepository;
 
     @Autowired
+    private StaffAndShipperRepository staffAndShipperRepository;
+
+    @Autowired
+    private InvoiceRepository invoiceRepository;
+
+    @Autowired
+    private InvoiceItemRepository invoiceItemRepository;
+
+    @Autowired
     private ExcelExportService excelExportService;
+
+    @Autowired
+    private CommonService commonService;
 
     @GetMapping("get-all-products")
     public Object getAllProducts() {
         try {
             List<Product> products = productRepository.getAllProduct();
+            return Response.createSuccessResponseModel(products.size(), products);
+        }
+        catch (Exception e) {
+            return Response.createErrorResponseModel(e.getMessage(), false);
+        }
+    }
+
+    @GetMapping("get-available-products")
+    public Object getAvailableProducts() {
+        try {
+            List<Product> products = productRepository.getAvailableProduct();
             return Response.createSuccessResponseModel(products.size(), products);
         }
         catch (Exception e) {
@@ -113,6 +149,87 @@ public class APIProductController {
         return Response.createSuccessResponseModel(0,totalQuantity);
     }
 
+    @GetMapping("get-cart-employee")
+    public Object getCartOfEmployee() {
+        List<CartOfEmployee> carts = cartOfEmployeeRepository.getCartsByIdSalePeople(Utils.idUserLogin);
+        return Response.createSuccessResponseModel(carts.size(), carts);
+    }
+
+    @PostMapping("update-quantity-in-cart-employee")
+    public Object updateQuantityInCartEmployee(@RequestBody Map<String, String> req) {
+        try {
+            Long id = Long.parseLong(req.get("id"));
+            int quantity = Integer.parseInt(req.get("value"));
+            CartOfEmployee c = cartOfEmployeeRepository.getCartItem(id);
+            if(quantity < 1)
+                return Response.createErrorResponseModel("Số lượng không thể nhỏ hơn 1.", c.getQuantity());
+            c.setQuantity(quantity);
+            c.setTotalMoney(c.getSalePrice() * quantity);
+            cartOfEmployeeRepository.save(c);
+            return Response.createSuccessResponseModel(0, true);
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return Response.createErrorResponseModel("Vui lòng thử lại.", ex.getMessage());
+        }
+    }
+
+    @PostMapping("add-product-to-cart-employee/{id}")
+    public Object addProductToCartEmployee(@PathVariable Long id) {
+        try {
+            Product p = productRepository.getDetailProduct(id);
+            if(p == null)
+                return Response.createErrorResponseModel("Không tìm thấy sản phẩm.", false);
+            // Check if the product already exists in the cart
+            CartOfEmployee c = cartOfEmployeeRepository.getCartItem(p.getId());
+            if(c != null) {
+                c.setQuantity(c.getQuantity()+1);
+                c.setTotalMoney(c.getQuantity() * c.getSalePrice());
+                cartOfEmployeeRepository.save(c);
+            }
+            else {
+                CartOfEmployee newCart = new CartOfEmployee(Utils.idUserLogin, p.getId(), p.getName(), p.getImageUrl(), p.getSalePrice(), 1, p.getSalePrice());
+                cartOfEmployeeRepository.save(newCart);
+            }
+            return Response.createSuccessResponseModel(0, true);
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return Response.createErrorResponseModel("Vui lòng thử lại.", ex);
+        }
+    }
+
+    @DeleteMapping("delete-product-in-cart-employee/{id}")
+    public Object deleteProductInCartEmployee(@PathVariable Long id) {
+        try {
+            cartOfEmployeeRepository.deleteCartById(id);
+            return Response.createSuccessResponseModel(0, true);
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return Response.createErrorResponseModel("Vui lòng thử lại.", ex.getMessage());
+        }
+    }
+
+    @GetMapping("get-info-cart-employee")
+    public Object getInfoCartEmployee() {
+        List<CartOfEmployee> carts = cartOfEmployeeRepository.getCartsByIdSalePeople(Utils.idUserLogin);
+        int totalMoney = 0;
+        int totalQuantity = 0;
+        for (CartOfEmployee c : carts) {
+            totalMoney += c.getTotalMoney();
+            totalQuantity += c.getQuantity();
+        }
+        return Response.createSuccessResponseModel(
+                3,
+                Map.of(
+                        "totalQuantity", totalQuantity,
+                        "totalAmount", totalMoney,
+                        "cartItems", carts
+                )
+        );
+    }
+
     @GetMapping("cart")
     public Object getCartOfUser() {
         List<CartItem> cart = cartItemRepository.getAll(Utils.cart);
@@ -160,7 +277,7 @@ public class APIProductController {
             String email = req.getEmail();
             String city = req.getCity();
 
-            Order o = new Order(totalPrice, LocalDateTime.now(), name, address, phone, email, city);
+            Order o = new Order(totalPrice, new Date(), name, address, phone, email, city, req.getPaymentMethod());
             orderRepository.save(o);
 
             //save order item
@@ -190,9 +307,14 @@ public class APIProductController {
     }
 
     @GetMapping("searchs")
-    public Object getSearch(@RequestParam String keyword, @RequestParam(defaultValue = "1") int pageIndex) {
-        int pageSize = 12;
-        List<Product> products = productRepository.searchProducts(keyword);
+    public Object getSearch(@RequestParam String keyword, @RequestParam(defaultValue = "1") int pageIndex, @RequestParam(defaultValue = "12") int pageSize){
+        List<Product> products;
+        if(keyword.equals("all")) {
+            products = productRepository.getAllProduct();
+        }
+        else {
+            products = productRepository.searchProducts(keyword);
+        }
         int from = 0;
         if(pageIndex !=1) from = (pageIndex - 1) * pageSize;
 
@@ -302,6 +424,52 @@ public class APIProductController {
             }
             productRepository.saveAll(products);
             return Response.createSuccessResponseModel(products.size(), true);
+        }
+        catch (Exception e) {
+            return Response.createErrorResponseModel(e.getMessage(), false);
+        }
+    }
+
+    @PostMapping("invoices")
+    public Object createInvoice(@RequestBody InvoiceRequest req) {
+        try {
+            //tăng sale number
+            for (CartRequest item: req.getItems()) {
+                Product p = productRepository.getDetailProduct(item.getIdProduct());
+                p.setSaleNumber(p.getSaleNumber() + item.getQuantity());
+                p.setCurrentQuantity(p.getCurrentQuantity() - item.getQuantity());
+                productRepository.save(p);
+            }
+
+            //check customer
+            UserResponse customer = userRepository.getUserByPhoneNumber(req.getPhoneNumber());
+            if(customer == null) {
+                User newUser = new User(req.getFullName(), req.getPhoneNumber(), req.getAddress());
+                userRepository.save(newUser);
+            }
+            String invoiceCode = String.valueOf(Utils.generateSixDigitNumber());
+            StaffAndShipper u  = staffAndShipperRepository.getUserById(Utils.idUserLogin);
+
+            //create invoice
+            Invoice invoice = new Invoice(invoiceCode, req.getFullName(), u, req.getReceiveMoney(), req.getMoneyBack(), req.getTotalMoney(), req.getQuantity(), new Date());
+            invoiceRepository.save(invoice);
+
+            //create invoice item
+            for (CartRequest item: req.getItems()) {
+                Product p = productRepository.getDetailProduct(item.getIdProduct());
+                InvoiceItem orderItem = new InvoiceItem(invoice, p, item.getQuantity(), item.getTotalMoney(), new Date());
+                invoiceItemRepository.save(orderItem);
+            }
+            //update cart
+            cartOfEmployeeRepository.deleteCartById(Utils.idUserLogin);
+            String outputPath = commonService.printInvoice(invoice, u,req, outputDirectory);
+            return Response.createSuccessResponseModel(
+                    0,
+                    Map.of(
+                            "downloadLink", outputPath,
+                            "urlRedirect", "/dashboard/pay-success/"+ invoice.getInvoiceCode()
+                    )
+            );
         }
         catch (Exception e) {
             return Response.createErrorResponseModel(e.getMessage(), false);

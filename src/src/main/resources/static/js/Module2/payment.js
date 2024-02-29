@@ -9,7 +9,7 @@ let cartItems;
 fetchDataAllProduct();
 fetchDataCart();
 function fetchDataAllProduct() {
-    fetch("/api/products/get-all-products")
+    fetch("/api/products/get-available-products")
         .then((res) => res.json())
         .then((res) => {
             displayProduct(res.data);
@@ -17,7 +17,7 @@ function fetchDataAllProduct() {
 }
 
 function fetchDataCart() {
-    fetch("/api/products/carts")
+    fetch("/api/products/get-cart-employee")
         .then((res) => res.json())
         .then((res) => {
             displayPayment(res.data);
@@ -26,51 +26,56 @@ function fetchDataCart() {
 function displayProduct(arr) {
     tbody.empty();
     arr.map((p) => {
+        let imageUrl = p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:8080/${p.imageUrl}`;
+        const importDate =
+            p.createdDate === null
+                ? "-"
+                : new Date(p.createdDate).toLocaleDateString("vi-VN");
         let html = `<tr>
-      <td><i class="bar-code fab fa-angular fa-lg text-danger me-3"></i> <strong class= "bar-code">${
-            p.barCode
+    <td><i class="bar-code fab fa-angular fa-lg text-danger me-3"></i> <strong class= "bar-code">${
+            p.id
         }</strong></td>
-      <td class= "name">${p.name}</td>
-      <td>
-        <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-            class="avatar avatar-xs pull-up" title="${p.name}">
-            <img
-              src="${p.imageLink}"
-              alt="Avatar" class="rounded-circle" />
-          </li>
-          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-            class="avatar avatar-xs pull-up" title="${p.name}">
-            <img
-              src="${p.imageLink}"
-              alt="Avatar" class="rounded-circle" />
-          </li>
-          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-            class="avatar avatar-xs pull-up" title="${p.name}">
-            <img
-              src="${p.imageLink}"
-              alt="Avatar" class="rounded-circle" />
-          </li>
-        </ul>
-      </td>
-      <td class="config">ROM: ${p.rom}, RAM: ${p.ram}</td>
-      <td>${new Date(p.createdDate).toLocaleDateString("vi-VN")}</td>
-      <td class="import-price">${Number(p.importPrice).toLocaleString("vi", {
+    <td class= "name">${p.name}</td>
+    <td>
+      <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+          class="avatar avatar-xs pull-up" title="${p.name}">
+          <img
+            src="${imageUrl}"
+            alt="Avatar" class="rounded-circle" />
+        </li>
+        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+          class="avatar avatar-xs pull-up" title="${p.name}">
+          <img
+            src="${imageUrl}"
+            alt="Avatar" class="rounded-circle" />
+        </li>
+        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+          class="avatar avatar-xs pull-up" title="${p.name}">
+          <img
+            src="${imageUrl}"
+            alt="Avatar" class="rounded-circle" />
+        </li>
+      </ul>
+    </td>
+    <td class="config">${importDate}</td>
+    <td class="import-price">${Number(p.importPrice).toLocaleString("vi", {
             style: "currency",
             currency: "VND",
         })}</td>
-      <td class="sale-price">${Number(p.priceSale).toLocaleString("vi", {
+    <td class="sale-price">${Number(p.salePrice).toLocaleString("vi", {
             style: "currency",
             currency: "VND",
         })}</td>
-      <td class="category">${p.categoryName}</td>
-      <td><span class="badge bg-label-primary me-1 sale-number">${
+    <td>${p.category.name}</td>
+    <td class="currentQuantity">${p.currentQuantity}</td>
+    <td><span class="badge bg-label-primary me-1 sale-number">${
             p.saleNumber
         }</span></td>
-      <td>
+    <td>
       <a class="dropdown-item" href="javascript:void(0);" onclick="addProductToCart(this)"><i class='bx bxs-cart-add' ></i> Chọn</a>
-      </td>
-    </tr>`;
+    </td>
+  </tr>`;
         tbody.append(html);
     });
 }
@@ -78,6 +83,7 @@ function displayProduct(arr) {
 function displayPayment(arr) {
     tbodyPayment.empty();
     arr.map((item, key) => {
+        let imageUrl = item.imageLink.startsWith('http') ? item.imageLink : `http://localhost:8080/${item.imageLink}`;
         let html = `<tr>
     <td class="id d-none">${item.id}</td>
       <td><i class="bar-code fab fa-angular fa-lg text-danger me-3"></i> <strong class= "bar-code">${
@@ -89,19 +95,19 @@ function displayPayment(arr) {
           <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
             class="avatar avatar-xs pull-up" title="${item.name}">
             <img
-              src="${item.imageLink}"
+              src="${imageUrl}"
               alt="Avatar" class="rounded-circle" />
           </li>
           <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
             class="avatar avatar-xs pull-up" title="${item.name}">
             <img
-              src="${item.imageLink}"
+              src="${imageUrl}"
               alt="Avatar" class="rounded-circle" />
           </li>
           <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
             class="avatar avatar-xs pull-up" title="${item.name}">
             <img
-              src="${item.imageLink}"
+              src="${imageUrl}"
               alt="Avatar" class="rounded-circle" />
           </li>
         </ul>
@@ -132,7 +138,7 @@ function searchProduct() {
 
     clearTimeout(timer);
     timer = setTimeout(() => {
-        fetch(`api/products/get-product-by-barcode/${val}`)
+        fetch(`/api/products/searchs?keyword=${val}&pageIndex=${1}&pageSize=${100}`)
             .then((res) => res.json())
             .then((res) => {
                 displayProduct(res.data);
@@ -144,7 +150,7 @@ function searchProduct() {
 function addProductToCart(element) {
     tr = $(element).closest("tr");
     barCode = $(tr).find(".bar-code").text();
-    fetch(`/api/products/add-to-cart/${barCode}`)
+    fetch(`/api/products/add-product-to-cart-employee/${barCode}`,{method: "POST"})
         .then((res) => res.json())
         .then((res) => {
             if (res.statusCode === 200) {
@@ -161,7 +167,7 @@ function updateQuantity(element) {
     const id = $(tr).find(".id").text();
     clearTimeout(timer2);
     timer2 = setTimeout(() => {
-        fetch(`/api/products/update-quantity`, {
+        fetch(`/api/products/update-quantity-in-cart-employee`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -173,7 +179,10 @@ function updateQuantity(element) {
                 if (res.statusCode === 200) {
                     fetchDataCart();
                     showToast(res.message, true);
-                } else showToast(res.message, false);
+                } else {
+                    showToast(res.message, false);
+                    $(element).val(res.data);
+                }
             });
     }, 600);
 }
@@ -181,7 +190,7 @@ function updateQuantity(element) {
 function deletedProduct(element) {
     tr = $(element).closest("tr");
     const id = $(tr).find(".id").text();
-    fetch(`/api/products/delete-product-in-cart/${id}`, {
+    fetch(`/api/products/delete-product-in-cart-employee/${id}`, {
         method: "DELETE",
     })
         .then((res) => res.json())
@@ -195,7 +204,7 @@ function deletedProduct(element) {
 
 function checkPayment() {
     $("#offcanvasEnd").addClass("show");
-    fetch("/api/carts/get-info-cart")
+    fetch("/api/products/get-info-cart-employee")
         .then((res) => res.json())
         .then((res) => {
             totalMoney = res.data.totalAmount;
@@ -218,10 +227,9 @@ function getCustomerProfile() {
     clearTimeout(timer3);
     timer3 = setTimeout(() => {
         $.ajax({
-            url: "/api/customer/get-profile",
+            url: `/api/users/get-info-by-phone/${value}`,
             contentType: "application/json",
-            method: "POST",
-            data: JSON.stringify({ phoneNumber: value }),
+            method: "GET",
             success: function (data) {
                 // Handle success
                 if (data.statusCode === 200) {
@@ -273,7 +281,7 @@ function handlePay() {
         moneyBack: parseInt(moneyBack.replace(/\./g, ""), 10),
         items: cartItems,
     };
-    fetch("/api/invoices", {
+    fetch("/api/products/invoices", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -290,6 +298,8 @@ function handlePay() {
                 window.location = res.data.urlRedirect;
             } else {
                 $("#offcanvasEnd").addClass("hide");
+                $(".btn-payment").removeClass("d-none");
+                $(".spinner").addClass("d-none");
                 showToast(res.message, false);
             }
         })

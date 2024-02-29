@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum WarrantyStatus {
     REGISTER("Đã đăng kí bảo hành"),
-    WAITING("Đang chờ xử lý"),
     HANDEL("Đang xử lý"),
+    CANCELED("Đã hủy bỏ"),
     DONE("Đã xử lý");
 
     private final String description;

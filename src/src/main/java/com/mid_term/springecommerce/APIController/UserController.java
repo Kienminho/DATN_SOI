@@ -63,6 +63,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("get-info-by-phone/{phone}")
+    public Object getInfoByPhone(@PathVariable String phone) {
+        try {
+            UserResponse user = userRepository.getUserByPhoneNumber(phone);
+            return Response.createSuccessResponseModel(0, user);
+        } catch (Exception e) {
+            return Response.createErrorResponseModel(e.getMessage(), false);
+        }
+    }
+
     @PutMapping("update-profile")
     public Object UpdateProfile(@RequestBody UserResponse req) {
         try {

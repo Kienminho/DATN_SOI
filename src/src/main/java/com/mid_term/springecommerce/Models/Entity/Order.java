@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Getter
@@ -20,7 +21,8 @@ public class Order {
 
     private int totalPrice;
 
-    private LocalDateTime orderDateTime;
+    @Column(columnDefinition = "datetime")
+    private Date orderDateTime;
 
     @Column(columnDefinition = "nvarchar(75)")
     private String name;
@@ -39,7 +41,12 @@ public class Order {
     @Column(name = "city", columnDefinition = "nvarchar(50)")
     private String place;
 
-    public Order(int totalPrice, LocalDateTime now, String name, String address, String phone, String email, String city) {
+    private String paymentMethod; //C- Cash, T-Banking transfer
+
+    private Boolean issueInvoice;
+
+    private int status; //, 1-Confirmed, 2-Delivering, 3-Delivered, 4-Cancelled
+    public Order(int totalPrice, Date now, String name, String address, String phone, String email, String city, String paymentMethod) {
         this.totalPrice = totalPrice;
         this.orderDateTime = now;
         this.name = name;
@@ -47,5 +54,8 @@ public class Order {
         this.phoneNumber = phone;
         this.email = email;
         this.place = city;
+        this.paymentMethod = paymentMethod;
+        this.issueInvoice = false;
+        this.status = 1;
     }
 }

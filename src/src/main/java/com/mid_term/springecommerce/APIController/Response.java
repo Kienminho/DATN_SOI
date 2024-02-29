@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class Response<T> {
     }
 
     public static <T> Response<T> createErrorResponseModel(String message, T data) {
-        return new Response<>(400, message, 0, null);
+        return new Response<>(400, message, 0, data);
     }
 
 }

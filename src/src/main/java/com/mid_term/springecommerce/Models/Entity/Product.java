@@ -48,8 +48,10 @@ public class Product {
     private boolean is_deleted;
 
     @Nullable
+    @Column(columnDefinition = "datetime")
     private Date createdDate;
     @Nullable
+    @Column(columnDefinition = "datetime")
     private Date updatedDate;
 
     public Product(String name, int salePrice, Category c, String description) {

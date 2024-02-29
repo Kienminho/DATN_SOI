@@ -31,6 +31,7 @@ public class StaffAndShipper {
     private String phoneNumber;
     private String avatar;
     private String activationToken;
+    @Column(columnDefinition = "datetime")
     private Date activationExpires;
     private Boolean isActivated = false;
     private Boolean firstLogin = true;

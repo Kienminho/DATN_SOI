@@ -13,6 +13,7 @@ public class OrderRequest {
     public String phone;
     public String email;
     public String city;
+    public String paymentMethod;
     public int totalPrice;
 
     public List<OrderItemRequest> orderItems;

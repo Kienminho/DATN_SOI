@@ -23,6 +23,8 @@ public class Category {
     private String description;
     private boolean is_activated = true;
     private boolean is_deleted = false;
+    @Column(columnDefinition = "datetime")
     private Date createdDate = new Date();
+    @Column(columnDefinition = "datetime")
     private Date updatedDate;
 }

@@ -11,6 +11,9 @@ import java.util.List;
 public interface StaffAndShipperRepository extends JpaRepository<StaffAndShipper, Long> {
     @Query("SELECT u FROM StaffAndShipper u JOIN u.roles r WHERE r.roleName = 'ROLE_EMPLOYEE'")
     List<StaffAndShipper> getAllUser();
+
+    @Query("SELECT u FROM StaffAndShipper u JOIN u.roles r WHERE r.roleName = 'ROLE_SHIPPER'")
+    List<StaffAndShipper> getAllShipper();
     @Query("SELECT u FROM StaffAndShipper u where u.email =:email")
     StaffAndShipper getUserByEmail(@Param("email") String email);
     @Query("SELECT new com.mid_term.springecommerce.DTO.StaffAndShipperDTO(u.Id, u.userName,u.password,u.fullName," +
