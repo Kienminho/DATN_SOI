@@ -33,7 +33,6 @@ import java.util.*;
 @RequestMapping("/api/products/")
 public class APIProductController {
 
-
     @Value("${spring.servlet.multipart.location}")
     private String uploadPath;
 
@@ -148,6 +147,7 @@ public class APIProductController {
 
         return Response.createSuccessResponseModel(0,totalQuantity);
     }
+
 
     @GetMapping("get-cart-employee")
     public Object getCartOfEmployee() {

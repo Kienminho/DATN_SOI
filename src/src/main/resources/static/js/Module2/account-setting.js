@@ -10,7 +10,7 @@ $(document).ready(function () {
 });
 
 function getInfo() {
-    fetch("/api/users/info-mine")
+    fetch("/api/users/get-info-mine")
         .then((res) => res.json())
         .then((res) => {
             $("#full-name").val(res.data.fullName);
@@ -42,7 +42,7 @@ function handleFileChange() {
         formData.append("avatar", file);
         formData.append("id", id);
         // Use fetch to send the file to the server
-        fetch("/api/users/uploadAvatar", {
+        fetch("/api/users/upload-avatar", {
             method: "POST",
             body: formData,
         })
@@ -71,7 +71,7 @@ function confirmChange() {
             confirmPassword.val()
         )
     ) {
-        fetch("/api/users/change-password", {
+        fetch("/api/staff-and-shipper/change-password", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

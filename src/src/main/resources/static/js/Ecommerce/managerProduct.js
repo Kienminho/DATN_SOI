@@ -41,6 +41,7 @@ fetch("/api/products/get-all-products")
 function displayProducts(element, arr) {
     element.empty();
     arr.map(item => {
+        let hotProduct = item.currentQuantity < 10 ? "[Best sale]" : ""
         // Determine the lock icon class based on the isDelete status
         const lockIconClass = item._deleted ? 'fa-lock' : 'fa-unlock';
 
@@ -49,7 +50,7 @@ function displayProducts(element, arr) {
                         <a href="#">${item.id}</a>
                     </td>
                     <td data-bs-toggle="tooltip" data-bs-placement="bottom" title="${item.description}">
-                        ${item.name}
+                        ${hotProduct+" "+item.name}
                     </td>
                     <td>
                         <img loading="lazy" src="${item.imageUrl}"

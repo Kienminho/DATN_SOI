@@ -55,6 +55,14 @@ public class StaffAndShipper {
         this.avatar = avatar;
         this.activationToken = activationToken;
         this.activationExpires = activationExpires;
+    }
 
+    public StaffAndShipper(String userName, String email, String password, Role r, String activationToken, Date activationExpires) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.roles = new HashSet<>(Collections.singletonList(r));
+        this.activationToken = activationToken;
+        this.activationExpires = activationExpires;
     }
 }

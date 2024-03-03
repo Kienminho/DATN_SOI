@@ -78,12 +78,13 @@ function addProduct() {
 function displayProduct(arr) {
     tbody.empty();
     arr.map((p) => {
+        let color = p.currentQuantity <10  ? "table-warning" : "";
         let imageUrl = p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:8080/${p.imageUrl}`;
         const importDate =
             p.createdDate === null
                 ? "-"
                 : new Date(p.createdDate).toLocaleDateString("vi-VN");
-        let html = `<tr>
+        let html = `<tr class="${color}">
     <td><i class="bar-code fab fa-angular fa-lg text-danger me-3"></i> <strong class= "bar-code">${
             p.id
         }</strong></td>

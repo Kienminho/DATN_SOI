@@ -1,6 +1,7 @@
 package com.mid_term.springecommerce.APIController;
 
 import com.mid_term.springecommerce.DTO.OrderOfShipperRequest;
+import com.mid_term.springecommerce.DTO.StaffAndShipperDTO;
 import com.mid_term.springecommerce.Models.Entity.*;
 import com.mid_term.springecommerce.Repositorys.*;
 import com.mid_term.springecommerce.Services.MailService;
@@ -34,6 +35,98 @@ public class StaffAndShipperController {
 
     @Autowired
     private MailService mailService;
+
+    @PostMapping("register-shipper")
+    public Object registerShipper(@RequestBody Map<String, String> req) {
+        String fullName = req.get("username");
+        String email = req.get("email");
+        String password = req.get("password");
+        StaffAndShipper existUser = staffAndShipperRepository.getUserByEmail(email);
+        if (existUser != null) {
+            return Response.createErrorResponseModel("Nhân viên đã tồn tại", false);
+        }
+
+        try {
+            Role r = roleRepository.getRoleById(6L);
+            StaffAndShipper user = new StaffAndShipper(
+                    fullName,
+                    email,
+                    password,
+                    r,
+                    Utils.GenerateRandomToken(100),
+                    new Date()
+            );
+            staffAndShipperRepository.save(user);
+            mailService.sendMail(user.getActivationToken(), user.getEmail(), user.getUserName());
+            return Response.createSuccessResponseModel(0, true);
+        } catch (Exception ex) {
+            return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());
+        }
+    }
+
+    @PostMapping("login")
+    public Object handleLogin(@RequestBody Map<String, String> req) {
+        String userName = req.get("username");
+        String password = req.get("password");
+
+        //check user exist
+        StaffAndShipperDTO existUser = staffAndShipperRepository.getUserByName(userName);
+        if (existUser == null) {
+            return Response.createErrorResponseModel("Nhân viên chưa đăng ký , vui lòng liên hệ với admin", false);
+        }
+        if (!existUser.getIsActivated() || existUser.getIsDeleted()) {
+            return Response.createErrorResponseModel("Tài khoản chưa kích hoạt hoặc đã bị khoá , vui lòng liên hệ với admin", false);
+        }
+
+        //check first login
+        if (existUser.getFirstLogin()) {
+            if (password.equals(existUser.getPassword())) {
+                return Response.createResponseModel(304,
+                        "Lần đầu tiên đăng nhập, vui lòng đổi mật khẩu để tiếp tục truy cập hệ thống",
+                        Map.of(
+                                "urlRedirect", "/dashboard/auth/change_password/" + existUser.getId(),
+                                "token", existUser.getActivationToken()
+                        )
+                );
+            } else {
+                return Response.createErrorResponseModel("Mật khẩu sai, vui lòng thử lại", false);
+            }
+        }
+
+        // so sánh mật khẩu
+        boolean match = Utils.verifyPassword(password, existUser.getPassword());
+        if (match) {
+            if (existUser.getIsDeleted()) {
+                return Response.createErrorResponseModel("Tài khoản đã bị khoá, vui lòng liên hệ admin.", false);
+            }
+            Utils.userNameLogin = existUser.getUserName();
+            Utils.idUserLogin = existUser.getId();
+            Utils.staffAndShipperLogin =  existUser;
+            Utils.isLogin = true;
+            return Response.createSuccessResponseModel(0, Map.of(
+                    "urlRedirect", "/dashboard/index"
+            ));
+        }
+        return Response.createErrorResponseModel("Mật khẩu sai, vui lòng thử lại", false);
+    }
+
+    @PostMapping("change_password")
+    public Object handleChangePassword(@RequestBody Map<String, String> req) {
+        Long id = Long.parseLong(req.get("id"));
+        String password = req.get("password");
+
+        //find user
+        StaffAndShipper u = staffAndShipperRepository.getUserById(id);
+        if (u == null) {
+            return Response.createErrorResponseModel("Không tìm thấy dữ liệu", false);
+        }
+
+        String hashPassword = Utils.hashPassword(password);
+        u.setFirstLogin(false);
+        u.setPassword(hashPassword);
+        staffAndShipperRepository.save(u);
+        return Response.createSuccessResponseModel(0, true);
+    }
 
     @PostMapping("create-staff")
     public Object createStaff(@RequestBody Map<String, String> req) {
@@ -115,7 +208,7 @@ public class StaffAndShipperController {
     @GetMapping("get-list-shipper")
     public Object getListShipper() {
         try {
-            return Response.createSuccessResponseModel(0, staffAndShipperRepository.getAllShipper());
+            return Response.createSuccessResponseModel(0, staffAndShipperRepository.getAllShipperActive());
         } catch (Exception ex) {
             return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());
         }
@@ -171,6 +264,16 @@ public class StaffAndShipperController {
     public Object getOrderByShipperId() {
         try {
             List<OrderOfShipper> list = orderOfShipperRepository.getOrderByShipperId(Utils.idUserLogin);
+            return Response.createSuccessResponseModel(list.size(), list);
+        } catch (Exception ex) {
+            return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());
+        }
+    }
+
+    @GetMapping("get-order-by-shipper-id/{id}")
+    public Object getOrderByShipperId(@PathVariable Long id) {
+        try {
+            List<OrderOfShipper> list = orderOfShipperRepository.getOrderByShipperId(id);
             return Response.createSuccessResponseModel(list.size(), list);
         } catch (Exception ex) {
             return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());

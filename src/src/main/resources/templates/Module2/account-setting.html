@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="/assets/"
       data-template="vertical-menu-template-free">
-<head th:replace="~{Module2/mainFragment :: head}"></head>
+<head th:replace="~{Module2/main-fragment :: head}"></head>
 
 <body>
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
         <!-- Menu -->
-        <aside th:replace="~{Module2/mainFragment :: aside}">
+        <aside th:replace="~{Module2/main-fragment :: aside}">
         </aside>
         <!-- / Menu -->
         <!-- Layout container -->
@@ -67,7 +67,7 @@
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="/my-profile">
+                                    <a class="dropdown-item" href="/dashboard/my-profile">
                                         <i class="bx bx-user me-2"></i>
                                         <span class="align-middle">Hồ sơ</span>
                                     </a>
@@ -76,7 +76,7 @@
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="/auth/logout">
+                                    <a class="dropdown-item" href="/dashboard/auth/logout">
                                         <i class="bx bx-power-off me-2"></i>
                                         <span class="align-middle">Đăng xuất</span>
                                     </a>
@@ -87,128 +87,114 @@
                     </ul>
                 </div>
             </nav>
-            <!-- Content wrapper -->
             <div class="content-wrapper">
                 <!-- Content -->
 
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Quản lý danh mục</h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Thông tin chi tiết /</span> Tài khoản</h4>
 
-                    <!-- Basic Bootstrap Table -->
-                    <div class="card">
-                        <div>
-                            <h5 class="card-header">Danh mục</h5>
-                            <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary"
-                                    data-bs-toggle="modal" data-bs-target="#addProductModal">Thêm danh mục</button>
-                            <input type="file" id="file-input" class="d-none">
-                            <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary" id="btn-import-excel" onclick="importExcel()">Nhập dữ liệu</button>
-                            <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary" id="btn-export-excel" onclick="exportExcel()">Xuất dữ liệu</button>
-                        </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card mb-4">
+                                <h5 class="card-header">Thông tin cá nhân</h5>
+                                <!-- Account -->
+                                <div class="card-body">
+                                    <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                        <img alt="user-avatar" class="d-block rounded" height="100" width="100"
+                                             id="uploadedAvatar" />
+                                        <div class="button-wrapper">
+                                            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                                <span class="d-none d-sm-block">Upload new photo</span>
+                                                <i class="bx bx-upload d-block d-sm-none"></i>
+                                                <input type="file" id="upload" class="account-file-input" hidden
+                                                       accept="image/png, image/jpeg" onchange="handleFileChange()" />
+                                            </label>
+                                            <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-0" />
+                                <div class="card-body">
+                                    <form id="formAccountSettings" method="POST" onsubmit="return false">
+                                        <div class="row">
+                                            <div class="mb-3 col-md-6">
+                                                <label for="fullName" class="form-label">Họ và tên</label>
+                                                <input disabled class="form-control" type="text" id="full-name" name="fullName"
+                                                       value="John" autofocus />
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="email" class="form-label">E-mail</label>
+                                                <input disabled class="form-control" type="text" id="email" name="email"
+                                                       value="john.doe@example.com" placeholder="john.doe@example.com" />
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="address" class="form-label">Địa chỉ</label>
+                                                <input disabled type="text" class="form-control" id="address" name="address"
+                                                       placeholder="Address" />
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="phone-number" class="form-label">Số điện thoại</label>
+                                                <input disabled class="form-control" type="text" name="phoneNumber"
+                                                       id="phone-number" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <button type="submit" class="btn btn-primary me-2" onclick="changePassword()">Đổi mật
+                                                khẩu</button>
 
-
-                        <div class="table-responsive text-nowrap">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Mã loại</th>
-                                    <th>Tên loại sản phẩm</th>
-                                    <th>Mô tả</th>
-                                    <th>Số lượng sản phẩm</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                                </thead>
-                                <tbody class="tbody table-border-bottom-0">
-                                </tbody>
-                            </table>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /Account -->
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="content-backdrop fade"></div>
             </div>
-            <div class="content-backdrop fade"></div>
-            <!-- Content wrapper -->
         </div>
+
     </div>
+
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
-
-<!-- modal add product -->
-<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- modal change password -->
+<div class="modal fade" id="change-password-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="add-product-modal-label">Thêm danh mục</h5>
+                <h5 class="modal-title" id="add-product-modal-label">Đổi mật khẩu</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="from-add-category" enctype="multipart/form-data">
+                <form id="form-create-employee" enctype="application/x-www-form-urlencoded">
                     <div class="mb-3">
-                        <label for="category-name">Tên danh mục <span class="text-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder="Nhập tên danh mục" id="category-name"
-                               name="name">
+                        <label for="old-password">Mật khẩu cũ</label>
+                        <input class="form-control" type="password" placeholder="Nhập mật khẩu cũ" id="old-password"
+                               name="oldPassword">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="new-password">Mật khẩu mới</label>
+                        <input class="form-control" type="password" placeholder="Nhập mật khẩu mới" id="new-password"
+                               name="newPassword">
                     </div>
                     <div class="mb-3">
-                        <label for="description">Mô tả <span class="text-danger">*</span></label>
-                        <input class="form-control" type="text" placeholder="Nhập mô tả" id="description" name="description">
+                        <label for="confirm-password">Xác nhận mật khẩu</label>
+                        <input class="form-control" type="password" placeholder="Xác nhận mật khẩu mới"
+                               id="confirm-password" name="confirmPassword">
                     </div>
+
                 </form>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Huỷ </button>
-            <button type="button" class="btn-add-product btn btn-primary pe-auto" onclick="addProduct()"> Thêm </button>
-        </div>
-    </div>
-</div>
-
-<!-- modal update product --->
-<div class="modal fade" id="update-product-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="update-product-modal-label">Cập nhật danh mục</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="from-update-product">
-                    <input class="form-control d-none" type="number" id="bar-code" name="id">
-                    <div class="mb-3">
-                        <label for="category-name-update">Tên danh mục</label>
-                        <input class="form-control" type="text" placeholder="Nhập tên danh mục" id="category-name-update"
-                               name="name">
-                    </div>
-                    <div class="mb-3">
-                        <label for="description-update">Mô tả</label>
-                        <input class="form-control" type="text" placeholder="Nhập mô tả" id="description-update"
-                               name="description">
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Huỷ </button>
-            <button type="button" class="btn-add-product btn btn-primary pe-auto" onclick="confirmUpdateProduct()"> Cập nhật
+            <button type="button" class="btn-add-product btn btn-primary pe-auto" onclick="confirmChange()"> Lưu thay
+                đổi
             </button>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Delete-->
-<div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Xoá danh mục</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Bạn có muốn xoá danh mục này không?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-danger" onclick="confirmDeleted()">Xoá</button>
-            </div>
         </div>
     </div>
 </div>
@@ -225,6 +211,7 @@
     </div>
 </div>
 </body>
+
 <script src="/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="/assets/vendor/libs/popper/popper.js"></script>
 <script src="/assets/vendor/js/bootstrap.js"></script>
@@ -244,6 +231,5 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
-<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-<script src="/js/Module2/category-manager.js"></script>
+<script src="/js/Module2/account-setting.js"></script>
 </html>

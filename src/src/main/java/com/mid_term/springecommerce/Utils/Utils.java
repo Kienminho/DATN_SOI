@@ -1,6 +1,8 @@
 package com.mid_term.springecommerce.Utils;
 
+import com.mid_term.springecommerce.DTO.StaffAndShipperDTO;
 import com.mid_term.springecommerce.Models.Entity.Cart;
+import com.mid_term.springecommerce.Models.Entity.StaffAndShipper;
 import com.mid_term.springecommerce.Models.Entity.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -9,6 +11,8 @@ import java.util.Random;
 
 public class Utils {
     public static User userLogin;
+    public static StaffAndShipperDTO staffAndShipperLogin;
+
     public static Cart cart;
     public static int totalProductInCart = 0;
     public static String userNameLogin = "";

@@ -48,19 +48,18 @@
 
                     <div class="header-top-left">
                         <ul>
-                            <li class="click_menu" th:if="${#authorization.expression('isAuthenticated()')}">
-                                <a href="#" th:text="${#authentication.principal.username}"><i class="fa fa-angle-down"></i></a>
+                            <li class="account-Dropdown click_menu d-none">
+                                <a class="username" href="#" ><i class="fa fa-angle-down"></i></a>
                                 <ul class="click_menu_show">
                                     <li><a href="#">My Account</a></li>
                                     <li><a href="/logout">Log out</a></li>
                                 </ul>
                             </li>
-                            <li th:unless="${#authorization.expression('isAuthenticated()')}">
-                                <a href="/auth/login">Log in<i class="fa fa-angle-down"></i></a>
-
+                            <li>
+                                <a class="login" href="/auth/login">Log in<i class="fa fa-angle-down"></i></a>
                             </li>
-                            <li th:if="${#authorization.expression('isAuthenticated()')}"><a href="/logout">Log out</a></li>
-                            <li th:unless="${#authorization.expression('isAuthenticated()')}"><a href="/auth/register">Create new account</a></li>
+                            <li class="logout d-none"><a href="/logout">Log out</a></li>
+                            <li class="create-new-account"><a href="/auth/register">Create new account</a></li>
                         </ul>
                     </div>
                 </div>
@@ -86,11 +85,11 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
                     <div class="header-bottom-right-4-inner">
-                        <a th:if="${#authorization.expression('isAuthenticated()')}" href="#"><span class="lnr lnr-heart"></span></a>
+                        <a href="#"><span class="d-none lnr lnr-heart"></span></a>
                     </div>
                     <div class="header-bottom-right header-bottom-right-4">
                         <div class="shop-cart shop-cart-4">
-                            <a th:if="${#authorization.expression('isAuthenticated()')}" href="/shopping-cart"><span class="lnr lnr-cart"></span></a>
+                            <a class="shopping-cart d-none" href="/shopping-cart"><span class="lnr lnr-cart"></span></a>
                         </div>
                     </div>
                 </div>
@@ -383,7 +382,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mar_b-30">
                 <div class="copyright text-left">
-                    <p>2016 @ All Rights Reserved - <a href="#"></a></p>
+                    <p>2024 @ All Rights Reserved - <a href="#"></a></p>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">

@@ -19,7 +19,7 @@ public class MailService {
         try {
             String htmlContent =
                     "Tài khoản và mật khẩu của bạn: " + username + "\n" +
-                            "Nhấp vào liên kết sau để kích hoạt tài khoản của bạn: http://localhost:8080/auth/active/" + token;
+                            "Nhấp vào liên kết sau để kích hoạt tài khoản của bạn: http://localhost:8080/dashboard/auth/active/" + token;
             SimpleMailMessage mail = new SimpleMailMessage();
             mail.setFrom(sender);
             mail.setTo(email);

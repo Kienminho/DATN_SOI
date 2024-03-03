@@ -18,9 +18,8 @@ fetch("http://localhost:8080/api/products/get-all-products")
 function display(element, list) {
     // Clear the container before appending new items
     element.empty();
-
-
     list.map(item => {
+        let hotProduct = item.currentQuantity < 10 ? "[Best sale]" : ""
         let html = `<div class="col-lg-3">
 							<div  class="single-new-product">
 								<div class="product-img">
@@ -30,7 +29,7 @@ function display(element, list) {
 									</a>
 								</div>
 								<div class="product-content text-center">
-									<a href="/product/${item.id}"><h3>${item.name}</h3></a>
+									<a href="/product/${item.id}"><h3>${hotProduct +" "+item.name}</h3></a>
 									<div class="product-price-star">
 										<i class="fa fa-star"></i>
 										<i class="fa fa-star"></i>
@@ -70,6 +69,8 @@ function addToCarts(element) {
         .then((res) => {
             if(res.statusCode === 400)
                 flashMessage("Sản phẩm đã có trong giỏ hàng", "error");
+            else if(res.statusCode === 500)
+                flashMessage("Có lỗi xảy ra vui lòng thử lại!", "error");
             else
                 flashMessage("Thêm sản phẩm vào giỏ hàng thành công", "success");
                 document.documentElement.style.setProperty('--cart-count', "'"+res.data+ "'");

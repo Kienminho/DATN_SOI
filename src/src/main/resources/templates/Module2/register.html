@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{authFragment :: head}"></head>
+<head th:replace="~{Module2/authFragment :: head}"></head>
 <body>
 <div class="container-xxl">
     <div class="authentication-wrapper authentication-basic container-p-y">
@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <!-- Logo -->
                     <div class="app-brand justify-content-center">
-                        <a href="index.html" class="app-brand-link gap-2">
+                        <a href="/dashboard/" class="app-brand-link gap-2">
                                 <span class="app-brand-logo demo">
                                     <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                          xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -62,38 +62,44 @@
                             <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
                         </a>
                     </div>
-                    <h4 class="mb-2">Chào mừng đến Sneat Mobile! 👋</h4>
-                    <p class="mb-4">Đổi mật khẩu</p>
+                    <!-- /Logo -->
+                    <h4 class="mb-2"> Sneat mobile! 👋</h4>
+                    <p class="mb-4">Đăng nhập bằng tài khoản của bạn để làm việc</p>
 
-                    <form id="formAuthentication" class="mb-3" action="" method="POST">
+                    <form id="registerForm" class="mb-3" method="POST">
                         <div class="mb-3">
-                            <label for="new-password" class="form-label">Mật khẩu mới</label>
-                            <input type="password" class="form-control" id="new-password" name="new-password"
-                                   placeholder="Nhập mật khẩu mới" autofocus aria-describedby="password" />
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username"
+                                   autofocus />
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" />
                         </div>
                         <div class="mb-3 form-password-toggle">
-                            <div class="d-flex justify-content-between">
-                                <label class="form-label" for="confirm-password">Xác nhận mật khẩu</label>
-                            </div>
+                            <label class="form-label" for="password">Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="confirm-password" class="form-control" name="confirm-password"
-                                       placeholder="Xác nhận lại mật khẩu" aria-describedby="password" />
-
+                                <input type="password" id="password" class="form-control" name="password"
+                                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                       aria-describedby="password" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
                         </div>
-                        <p class="text-left ">
-                            <span class="message d-none text-danger"></span>
-                            <span class="message-success d-none text-success"></span>
-                        </p>
+
                         <div class="mb-3">
-                            <button class="btn btn-primary d-grid w-100" type="button">Xác nhận</button>
+                            <div class="form-check">
+                                <label class="message text-danger form-check-label">
+
+                                </label>
+                            </div>
                         </div>
+                        <button type="button" class="btn-register btn btn-primary d-grid w-100">Đăng ký</button>
                     </form>
 
                     <p class="text-center">
-                        <span>Đổi mật khẩu để tiếp tục?</span>
-                        <a href="/auth/login">
-                            <span>Đăng nhập</span>
+                        <span>Bạn đã có tài khoản?</span>
+                        <a href="/dashboard/auth/login">
+                            <span>Đăng nhập ở đây.</span>
                         </a>
                     </p>
                 </div>
@@ -101,6 +107,15 @@
         </div>
     </div>
 </div>
+
 </body>
-<script src="/js/Module2/changePassword.js"></script>
+<script src="/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="/assets/vendor/libs/popper/popper.js"></script>
+<script src="/assets/vendor/js/bootstrap.js"></script>
+<script src="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="/assets/vendor/js/menu.js"></script>
+<script src="/assets/js/main.js"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="/js/Module2/register.js"></script>
 </html>

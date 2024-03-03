@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="/assets/"
       data-template="vertical-menu-template-free">
-<head th:replace="~{Module2/mainFragment :: head}"></head>
+<head th:replace="~{Module2/main-fragment :: head}"></head>
 
 <body>
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
         <!-- Menu -->
-        <aside th:replace="~{Module2/mainFragment :: aside}">
+        <aside th:replace="~{Module2/main-fragment :: aside}">
         </aside>
         <!-- / Menu -->
         <!-- Layout container -->
@@ -67,7 +67,7 @@
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="/my-profile">
+                                    <a class="dropdown-item" href="/dashboard/my-profile">
                                         <i class="bx bx-user me-2"></i>
                                         <span class="align-middle">Hồ sơ</span>
                                     </a>
@@ -76,7 +76,7 @@
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="/auth/logout">
+                                    <a class="dropdown-item" href="/dashboard/auth/logout">
                                         <i class="bx bx-power-off me-2"></i>
                                         <span class="align-middle">Đăng xuất</span>
                                     </a>

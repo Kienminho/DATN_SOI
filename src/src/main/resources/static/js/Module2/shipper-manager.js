@@ -116,7 +116,7 @@ function displayData(arr) {
             <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${
             index + 1
         }</strong></td>
-            <td class="name">${i.fullName}</td>
+            <td class="name"><strong class="cursor-pointer" onclick="getInfoDetail(this)">${i.fullName}</strong></td>
             <td class="email">${i.email}</td>
             <td class="address">${i.address}</td>
             <td class="phone">${i.phoneNumber}</td>
@@ -155,6 +155,60 @@ function displayData(arr) {
         </tr>`;
         tbody.append(html);
     });
+}
+
+function getInfoDetail(e){
+    const id = $(e).closest("tr").find(".id").text();
+    fetch(`/api/staff-and-shipper/get-order-by-shipper-id/${id}`)
+        .then(res => res.json())
+        .then(res => {
+            displayDetail(res.data);
+            $("#detail-shipper-modal").modal("show");
+        })
+        .catch(error => {
+            console.log(error.message);
+            showToast("Đã có lỗi xảy ra!", false)
+        });
+}
+
+function displayDetail(arr){
+    const tbodyDetail = $(".tbody-detail");
+    tbodyDetail.empty();
+    arr.map((i, index) => {
+        let object = getStatus(i.status);
+        let html = `<tr>
+            <td>${i.id}</td>
+            <td>${i.customerName}</td>
+            <td>${convertDate(i.createdDate)}</td>
+            <td class="status"><span class="badge ${object.color}">${object.name}</span></td>
+            <td>${convertMoney(i.orderMoney)}</td>
+        </tr>`;
+        tbodyDetail.append(html);
+    });
+}
+
+function convertMoney(money) {
+    return Number(money).toLocaleString("vi", {
+        style: "currency",
+        currency: "VND",
+    })
+}
+
+function convertDate(date) {
+    let d = new Date(date);
+    return d.toLocaleDateString("en-GB");
+}
+
+function getStatus(status) {
+    switch (status) {
+        case 1:
+            return {name:"Đã giao hàng", color: "bg-label-success"};
+        case 2:
+            return {name:"Đã huỷ đơn hàng", color: "bg-label-danger"};
+        default:
+            return {name:"Đang giao hàng", color: "bg-label-secondary"};
+
+    }
 }
 
 function validateForm(employeeName, email, address, phoneNumber) {

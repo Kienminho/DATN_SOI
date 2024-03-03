@@ -25,5 +25,9 @@ public class Response<T> {
         return new Response<>(400, message, 0, data);
     }
 
+    public static <T> Response<T> createResponseModel(int statusCode, String message, T data) {
+        return new Response<>(statusCode, message, 0, data);
+    }
+
 }
 

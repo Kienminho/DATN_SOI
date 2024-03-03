@@ -13,19 +13,19 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.username is null")
     List<User> getAllUser();
 
-    @Query("SELECT u FROM User u WHERE u.username = :name")
+    @Query("SELECT u FROM User u JOIN u.roles r WHERE u.username = :name and r.id != 1")
     User getUserByName(@Param("name") String name);
 
     @Query("SELECT u FROM User u WHERE u.phone = :phone")
     User getUserByPhone(@Param("phone") String phone);
 
     @Query("SELECT NEW com.mid_term.springecommerce.Models.ResponseModel.UserResponse(" +
-            "u.username,u.fullName,u.email,u.phone,u.address,u.gender) " +
+            "u.username,u.fullName,u.email, u.phone,u.address,u.gender) " +
             "FROM User u WHERE u.username = :username")
     UserResponse getInfoMine(@Param("username")String username);
 
     @Query("SELECT NEW com.mid_term.springecommerce.Models.ResponseModel.UserResponse(" +
-            "u.username,u.fullName,u.email,u.phone,u.address,u.gender) " +
+            "u.username,u.fullName,u.email, u.phone,u.address,u.gender) " +
             "FROM User u WHERE u.phone = :phoneNumber")
     UserResponse getUserByPhoneNumber(@Param("phoneNumber")String phoneNumber);
 

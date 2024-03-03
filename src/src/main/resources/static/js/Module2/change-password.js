@@ -30,7 +30,7 @@ btn_changePassword.on("click", () => {
     const messageSuccess = $(".message-success");
 
     //sends the fetch to the server for processing
-    fetch("/api/user/change_password", options)
+    fetch("/api/staff-and-shipper/change_password", options)
         .then((res) => res.json())
         .then((data) => {
             if (data.statusCode === 200) {
@@ -38,7 +38,7 @@ btn_changePassword.on("click", () => {
                     messageSuccess,
                     "Đổi mật khẩu thành công, bạn sẽ được chuyển đến giao diện đăng nhập ngay bây giờ"
                 );
-                window.location = "/auth/login";
+                window.location = "/dashboard/auth/login";
             }
         })
         .catch((err) => console.log(err));

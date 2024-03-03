@@ -33,13 +33,6 @@
                     <!-- /Search -->
 
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
-                        <!-- Place this tag where you want the button to render. -->
-                        <!--{{!&#45;&#45; <li class="nav-item lh-1 me-3">
-                        <a class="github-button" href="https://github.com/themeselection/sneat-html-admin-template-free"
-                           data-icon="octicon-star" data-size="large" data-show-count="true"
-                           aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
-                    </li> &#45;&#45;}}-->
-
                         <!-- User -->
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -90,35 +83,30 @@
             <!-- Content wrapper -->
             <div class="content-wrapper">
                 <!-- Content -->
-
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Shipper /</span> Đơn hàng của tôi</h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Quản lý nhân viên</h4>
 
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
-                        <!--<div>
-                            <h5 class="card-header">Order</h5>
+                        <div>
+                            <h5 class="card-header">Sản phẩm</h5>
                             <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary"
-                                    data-bs-toggle="modal" data-bs-target="#addProductModal">Thêm danh mục</button>
-                            <input type="file" id="file-input" class="d-none">
-                            <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary" id="btn-import-excel" onclick="importExcel()">Nhập dữ liệu</button>
-                            <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary" id="btn-export-excel" onclick="exportExcel()">Xuất dữ liệu</button>
-                        </div>-->
+                                    data-bs-toggle="modal" data-bs-target="#create-employee-modal">Tạo nhân viên</button>
+
+                        </div>
 
 
-                        <div class="table-responsive text-nowrap">
+                        <div class="text-nowrap">
                             <table class="table">
                                 <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th>Tên khách hàng</th>
-                                    <th>Số điện thoại</th>
+                                    <th>Họ và tên</th>
+                                    <th>Email</th>
                                     <th>Địa chỉ</th>
-                                    <th>Ngày nhận đơn</th>
+                                    <th>Số điện thoại</th>
                                     <th>Trạng thái</th>
-                                    <th>Phương thức thanh toán</th>
-                                    <th>Tổng tiền</th>
-                                    <th>Thu hộ</th>
+                                    <th>Khoá</th>
                                     <th>Thao tác</th>
                                 </tr>
                                 </thead>
@@ -137,31 +125,60 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 
-<!-- modal add product -->
-<div class="modal fade" id="delivery" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="create-employee-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="add-product-modal-label">Chọn người giao hàng</h5>
+                <h5 class="modal-title" id="add-product-modal-label">Tạo mới nhân viên</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="from-add-category" enctype="multipart/form-data">
+                <form id="form-create-employee" enctype="application/x-www-form-urlencoded">
                     <div class="mb-3">
-                        <label for="category">Tên shipper <span class="text-danger">*</span></label>
-                        <select class="form-select" aria-label="Default select example" id="category" name="categoryName">
-                            <option selected>Chọn</option>
-                            <!--<option value="Dây chuyền">Dây chuyền</option>
-                            <option value="Vòng tay">Vòng tay</option>
-                            <option value="Combo quà tặng">Combo quà tặng</option>-->
-                        </select>
+                        <label for="employee-name">Họ tên nhân viên</label>
+                        <input class="form-control" type="text" placeholder="Nhập tên nhân viên" id="employee-name"
+                               name="employeeName">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+                        <input class="form-control" type="text" placeholder="Nhập email" id="email" name="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="address">Địa chỉ</label>
+                        <input class="form-control" type="text" placeholder="Nhập địa chỉ" id="address" name="address">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-number">Số điện thoại</label>
+                        <input class="form-control" type="text" placeholder="Nhập số diện thoại" id="phone-number"
+                               name="phoneNumber">
                     </div>
                 </form>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Huỷ </button>
-            <button type="button" class="btn-add-product btn btn-primary pe-auto" onclick="sendOrderToShipper()"> Xác nhận </button>
+            <button type="button" class="btn-add-product btn btn-primary pe-auto" onclick="createEmployee()"> Tạo
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Delete-->
+<div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Hoạt động</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có muốn thực hiện hành động này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDeleted()">Xác nhận</button>
+            </div>
         </div>
     </div>
 </div>
@@ -197,6 +214,5 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
-<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-<script src="/js/Module2/shipper.js"></script>
+<script src="/js/Module2/employee-manager.js"></script>
 </html>

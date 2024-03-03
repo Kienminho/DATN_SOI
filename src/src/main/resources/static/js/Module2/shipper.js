@@ -26,8 +26,8 @@ function displayData(arr) {
             <td class="date">${convertDate(i.createdDate) ?? "_"}</td>
             <td class="status"><span class="badge ${object.color}">${object.name}</span></td>
             <td class="payment-method">${i.paymentMethod === "T" ? "Ngân hàng" : "Tiền mặt"}</td>
-            <td class="total-money">${i.orderMoney ?? "_"}</td>
-            <td class="total-money">${i.collectionMoney ?? "_"}</td>
+            <td class="total-money">${convertMoney(i.orderMoney) ?? "_"}</td>
+            <td class="total-money">${convertMoney(i.collectionMoney) ?? "_"}</td>
             <td>
       <div class="dropdown">
         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -65,6 +65,13 @@ function DeliveryConfirm(e) {
                 showToast(data.message, false);
             }
         });
+}
+
+function convertMoney(money) {
+    return Number(money).toLocaleString("vi", {
+        style: "currency",
+        currency: "VND",
+    })
 }
 
 function CancelOrder(e) {

@@ -1,17 +1,19 @@
-const btnLogin = $(".btn-login");
-const username = $("#email");
+const username = $("#username");
+const email = $("#email");
 const password = $("#password");
-const errorMessage = $(".message-errors");
+const btnRegister = $(".btn-register");
+const errorMessage = $(".message");
 
-//xử lý đăng nhập
-btnLogin.on("click", () => {
-    if (validateInfoLogin(username.val(), password.val())) {
+btnRegister.on("click", () => {
+
+    if (validateInput(username.val(), email.val(), password.val())) {
         const data = {
             username: username.val(),
+            email: email.val(),
             password: password.val(),
         };
 
-        fetch("/api/staff-and-shipper/login", {
+        fetch("/api/staff-and-shipper/register-shipper", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -21,27 +23,32 @@ btnLogin.on("click", () => {
             .then((res) => res.json())
             .then((res) => {
                 console.log(res);
-                if (res.statusCode === 200 || res.statusCode === 304) {
-                    window.location.href = res.data.urlRedirect;
+                if (res.statusCode === 200) {
+                    window.location.href = "/dashboard/auth/login";
                 } else {
-                    password.val("");
                     displayErrorMessage(res.message);
                 }
             })
             .catch((err) => {
-                username.val("");
-                password.val("");
                 displayErrorMessage("Lỗi hệ thống vui lòng thử lại sau ít phút.");
             });
     }
     else {
-        displayErrorMessage("Vui lòng không được bỏ trống tên hoặc mật khẩu.");
+        displayErrorMessage("Vui lòng không được bỏ trống tên, email hoặc mật khẩu.");
     }
 });
 
-function validateInfoLogin(username, password) {
-    return !(username === "" || password === "");
-
+function validateInput(username, email, password) {
+    //check email
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(email)) {
+        return false;
+    }
+    //check password
+    if (password.length < 6) {
+        return false;
+    }
+    return !(username === "");
 }
 
 function displayErrorMessage(message) {

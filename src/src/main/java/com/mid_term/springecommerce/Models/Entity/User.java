@@ -31,6 +31,8 @@ public class User {
 
     private String phone;
 
+    private String avatar;
+
     @Column(columnDefinition = "nvarchar(100)")
     private String address;
 

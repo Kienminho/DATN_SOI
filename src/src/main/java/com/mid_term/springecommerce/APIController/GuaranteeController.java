@@ -95,4 +95,15 @@ public class GuaranteeController {
             return Response.createErrorResponseModel(e.getMessage(), false);
         }
     }
+
+    @GetMapping("get-guarantee-by-employee")
+    public Object getGuaranteeByEmployee() {
+        try {
+            List<RegisterGuarantee> registerGuarantees = registerGuaranteeRepository.getRegisterGuaranteeByIdStaff(Utils.userLogin.getFullName());
+            return Response.createSuccessResponseModel(registerGuarantees.size(), registerGuarantees);
+        }
+        catch (Exception e) {
+            return Response.createErrorResponseModel(e.getMessage(), false);
+        }
+    }
 }

@@ -29,7 +29,7 @@ btnRegister.on("click", () => {
             .catch(err => console.log(err));
 
     } else {
-        alert("Error!")
+        alert("Vui lòng nhập đầy đủ thông tin!");
     }
 });
 

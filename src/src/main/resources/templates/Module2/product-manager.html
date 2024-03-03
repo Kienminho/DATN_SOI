@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="/assets/"
       data-template="vertical-menu-template-free">
-<head th:replace="~{Module2/mainFragment :: head}"></head>
+<head th:replace="~{Module2/main-fragment :: head}"></head>
 
 <body>
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
         <!-- Menu -->
-        <aside th:replace="~{Module2/mainFragment :: aside}">
+        <aside th:replace="~{Module2/main-fragment :: aside}">
         </aside>
         <!-- / Menu -->
         <!-- Layout container -->
@@ -67,7 +67,7 @@
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="/my-profile">
+                                    <a class="dropdown-item" href="/dashboard/my-profile">
                                         <i class="bx bx-user me-2"></i>
                                         <span class="align-middle">Hồ sơ</span>
                                     </a>
@@ -76,7 +76,7 @@
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="/auth/logout">
+                                    <a class="dropdown-item" href="/dashboard/auth/logout">
                                         <i class="bx bx-power-off me-2"></i>
                                         <span class="align-middle">Đăng xuất</span>
                                     </a>
@@ -92,32 +92,33 @@
                 <!-- Content -->
 
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Quản lý Order</h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Quản lý sản phẩm</h4>
 
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
-                        <!--<div>
-                            <h5 class="card-header">Order</h5>
+                        <div>
+                            <h5 class="card-header">Sản phẩm</h5>
                             <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary"
-                                    data-bs-toggle="modal" data-bs-target="#addProductModal">Thêm danh mục</button>
+                                    data-bs-toggle="modal" data-bs-target="#addProductModal" onclick="getCategories()">Thêm sản phẩm</button>
                             <input type="file" id="file-input" class="d-none">
                             <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary" id="btn-import-excel" onclick="importExcel()">Nhập dữ liệu</button>
                             <button style="margin-left: 24px; margin-bottom:8px" type="button" class="btn btn-primary" id="btn-export-excel" onclick="exportExcel()">Xuất dữ liệu</button>
-                        </div>-->
+                        </div>
 
 
                         <div class="table-responsive text-nowrap">
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>STT</th>
-                                    <th>Tên khách hàng</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Ngày mua hàng</th>
-                                    <th>Trạng thái</th>
-                                    <th>Phương thức thanh toán</th>
-                                    <th>Tổng tiền</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Ngày nhập</th>
+                                    <th>Giá nhập</th>
+                                    <th>Giá bán</th>
+                                    <th>Loại</th>
+                                    <th>Số lượng kho</th>
+                                    <th>Số lượng bán</th>
                                     <th>Thao tác</th>
                                 </tr>
                                 </thead>
@@ -137,19 +138,49 @@
 </div>
 
 <!-- modal add product -->
-<div class="modal fade" id="delivery" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="add-product-modal-label">Chọn người giao hàng</h5>
+                <h5 class="modal-title" id="add-product-modal-label">Thêm sản phẩm</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="from-add-category" enctype="multipart/form-data">
+                <form id="from-add-product" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label for="category">Tên shipper <span class="text-danger">*</span></label>
+                        <label for="product-name">Tên sản phẩm <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" placeholder="Nhập tên sản phẩm" id="product-name"
+                               name="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="product-image">Ảnh sản phẩm <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="product-image" name="productImage"
+                                   aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="import-price">Giá nhập sản phẩm <span class="text-danger">*</span></label>
+                        <input class="form-control" type="number" placeholder="Nhập giá nhập" id="import-price" name="importPrice">
+                    </div>
+                    <div class="mb-3">
+                        <label for="sale-price">Giá bán sản phẩm <span class="text-danger">*</span></label>
+                        <input class="form-control" type="number" placeholder="Nhập giá bán" id="sale-price" name="priceSale">
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity">Số lượng nhập <span class="text-danger">*</span></label>
+                        <input class="form-control" type="number" placeholder="Nhập giá bán" id="quantity" name="quantity">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description-product">Mô tả <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" placeholder="Nhập mô tả" id="description-product"
+                               name="description">
+                    </div>
+                    <div class="mb-3">
+                        <label for="category">Danh mục <span class="text-danger">*</span></label>
                         <select class="form-select" aria-label="Default select example" id="category" name="categoryName">
-                            <option selected>Chọn</option>
+                            <option selected>Chọn danh mục</option>
                             <!--<option value="Dây chuyền">Dây chuyền</option>
                             <option value="Vòng tay">Vòng tay</option>
                             <option value="Combo quà tặng">Combo quà tặng</option>-->
@@ -160,7 +191,76 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Huỷ </button>
-            <button type="button" class="btn-add-product btn btn-primary pe-auto" onclick="sendOrderToShipper()"> Xác nhận </button>
+            <button type="button" class="btn-add-product btn btn-primary pe-auto" onclick="addProduct()"> Thêm </button>
+        </div>
+    </div>
+</div>
+
+<!-- modal update product --->
+<div class="modal fade" id="update-product-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="update-product-modal-label">Cập nhật sản phẩm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="from-update-product" enctype="multipart/form-data">
+                    <input class="form-control d-none" type="number" id="bar-code" name="barCode">
+                    <div class="mb-3">
+                        <label for="product-name">Tên sản phẩm</label>
+                        <input class="form-control" type="text" placeholder="Nhập tên sản phẩm" id="product-name-update"
+                               name="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="product-image-update">Ảnh sản phẩm</label>
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="product-image-update" name="productImageUpdate"
+                                   aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="import-price-update">Giá nhập sản phẩm</label>
+                        <input class="form-control" type="number" placeholder="Nhập giá nhập" id="import-price-update"
+                               name="importPrice">
+                    </div>
+                    <div class="mb-3">
+                        <label for="sale-price-update">Giá bán sản phẩm</label>
+                        <input class="form-control" type="number" placeholder="Nhập giá bán" id="sale-price-update"
+                               name="priceSale">
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity-number-update">Số lượng kho</label>
+                        <input class="form-control" type="number" placeholder="Nhập số lượng đã bán" id="quantity-number-update"
+                               name="quantityNumber">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Huỷ </button>
+            <button type="button" class="btn-add-product btn btn-primary pe-auto" onclick="confirmUpdateProduct()"> Cập nhật
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Delete-->
+<div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Xoá sản phẩm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có muốn xoá sản phẩm này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDeleted()">Xoá</button>
+            </div>
         </div>
     </div>
 </div>
@@ -197,5 +297,5 @@
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-<script src="/js/Module2/order-manager.js"></script>
+<script src="/js/Module2/product-manager.js"></script>
 </html>

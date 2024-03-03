@@ -11,4 +11,7 @@ public interface RegisterGuaranteeRepository extends JpaRepository<RegisterGuara
 
     @Query("SELECT rg FROM RegisterGuarantee rg WHERE rg.idUser = :idUser")
     List<RegisterGuarantee> getRegisterGuaranteeByIdUser(@Param("idUser") Long idUser);
+
+    @Query("SELECT rg FROM RegisterGuarantee rg WHERE rg.nameStaff = :nameStaff and rg.status=1")
+    List<RegisterGuarantee> getRegisterGuaranteeByIdStaff(@Param("nameStaff") String nameStaff);
 }
