@@ -63,12 +63,12 @@ function addToCarts(element) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({productId: element.dataset.productId})
+        body: JSON.stringify({productId: element.dataset.productId, quantity: 1})
     })
         .then(res => res.json())
         .then((res) => {
             if(res.statusCode === 400)
-                flashMessage("Sản phẩm đã có trong giỏ hàng", "error");
+                flashMessage(res.message, "error");
             else if(res.statusCode === 500)
                 flashMessage("Có lỗi xảy ra vui lòng thử lại!", "error");
             else

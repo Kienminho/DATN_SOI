@@ -29,7 +29,7 @@ public class CartItem {
     private Cart cart;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id", unique = false)
     private Product product;
 
     public CartItem(int quantity, int salePrice, int totalPrice, Cart cart, Product p) {

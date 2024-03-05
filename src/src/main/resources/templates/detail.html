@@ -74,11 +74,12 @@
                                     <i class="fa fa-star-o"></i>
                                     <span>(1Review)&nbsp;&nbsp;|&nbsp;&nbsp; Add Your Review </span>
                                 </div>
-                                <h4 th:text="@{${product.salePrice}+ ' VND'}"></h4>
+                                <h4 th:text="@{${product.salePrice}}"></h4>
                                 <div class="quick-add-to-cart">
                                     <form method="post" class="cart">
                                         <div class="numbers-row">
-                                            <label for="french-hens">Qty:</label>
+                                            <h4 class="id-product d-none" th:text="@{${product.id}}"></h4>
+                                            <label for="french-hens">Số lượng: </label>
                                             <input type="number" id="french-hens" value="1">
                                         </div>
                                     </form>
@@ -88,7 +89,7 @@
 
                                 <div class="quick-add-to-cart">
                                     <form method="post" class="cart">
-                                        <button class="btn btn-lg btn-success" type="submit"><span class="lnr lnr-cart"></span>Add to Cart</button>
+                                        <button class="btn btn-lg btn-success" onclick="addToCart()"><span class="lnr lnr-cart"></span>Thêm vào giỏ hàng</button>
                                     </form>
                                 </div>
                                 <br/>
@@ -362,5 +363,7 @@
 <script src="/js/plugins.js"></script>
 <!-- main js -->
 <script src="/js/main.js"></script>
+<script src="/js/Ecommerce/detail.js"></script>
+
 </body>
 </html>

@@ -130,22 +130,29 @@ public class APIProductController {
     //add products to cart
     @PostMapping("add-product-to-cart")
     public Object addProductToCart(@RequestBody Map<String, String> req) {
-        if(Utils.userLogin == null) return Response.createErrorResponseModel("Đăng nhập để thêm sản phẩm vào giỏ hàng.",false);
-        Long id = Long.parseLong(req.get("productId"));
-        Product p = productRepository.getDetailProduct(id);
-        CartItem item = cartItemRepository.getCartItem(p, Utils.cart);
-        if(item == null) {
-            cartItemRepository.save(new CartItem(1, p.getSalePrice(), p.getSalePrice(), Utils.cart, p));
-        }
-        else {
-            int quantity = item.getQuantity() +1;
-            int price = item.getTotalPrice() + p.getSalePrice();
-            cartItemRepository.updateCartItem(p, quantity, price, Utils.cart);
-        }
-        Utils.totalProductInCart +=1;
-        int totalQuantity = updateCart();
+        try {
+            if(Utils.userLogin == null) return Response.createErrorResponseModel("Đăng nhập để thêm sản phẩm vào giỏ hàng.",false);
+            Long id = Long.parseLong(req.get("productId"));
+            int q = Integer.parseInt(req.get("quantity"));
+            Product p = productRepository.getDetailProduct(id);
+            CartItem item = cartItemRepository.getCartItem(p, Utils.cart);
+            if(item == null) {
+                cartItemRepository.save(new CartItem(q, p.getSalePrice(), p.getSalePrice(), Utils.cart, p));
+            }
+            else {
+                int quantity = item.getQuantity() +q;
+                int price = item.getTotalPrice() + p.getSalePrice();
+                cartItemRepository.updateCartItem(p, quantity, price, Utils.cart);
+            }
+            Utils.totalProductInCart +=1;
+            int totalQuantity = updateCart();
 
-        return Response.createSuccessResponseModel(0,totalQuantity);
+            return Response.createSuccessResponseModel(0,totalQuantity);
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return Response.createErrorResponseModel("Đã có lỗi xảy ra, vui lòng thử lại.", ex.getMessage());
+        }
     }
 
 
