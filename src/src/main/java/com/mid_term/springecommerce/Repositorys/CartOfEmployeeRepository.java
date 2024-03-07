@@ -16,6 +16,6 @@ public interface CartOfEmployeeRepository extends JpaRepository<CartOfEmployee, 
     List<CartOfEmployee> getCartsByIdSalePeople(Long id);
     @Modifying
     @Transactional
-    @Query("DELETE FROM CartOfEmployee c WHERE c.idSalePeople =:id")
+    @Query("DELETE FROM CartOfEmployee c WHERE c.Id =:id")
     void deleteCartById(@Param("id") Long id);
 }
