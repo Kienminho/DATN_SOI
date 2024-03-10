@@ -99,8 +99,8 @@ public class StaffAndShipperController {
             if (existUser.getIsDeleted()) {
                 return Response.createErrorResponseModel("Tài khoản đã bị khoá, vui lòng liên hệ admin.", false);
             }
-            Utils.userNameLogin = existUser.getUserName();
-            Utils.idUserLogin = existUser.getId();
+            Utils.staffAndShipperName = existUser.getUserName();
+            Utils.idStaffAndShipperLogin = existUser.getId();
             Utils.staffAndShipperLogin =  existUser;
             Utils.isLogin = true;
             return Response.createSuccessResponseModel(0, Map.of(
@@ -263,7 +263,7 @@ public class StaffAndShipperController {
     @GetMapping("get-order-by-shipper-id")
     public Object getOrderByShipperId() {
         try {
-            List<OrderOfShipper> list = orderOfShipperRepository.getOrderByShipperId(Utils.idUserLogin);
+            List<OrderOfShipper> list = orderOfShipperRepository.getOrderByShipperId(Utils.idStaffAndShipperLogin);
             return Response.createSuccessResponseModel(list.size(), list);
         } catch (Exception ex) {
             return Response.createErrorResponseModel("Vui lòng đợi, hệ thống đang gặp vấn đề", ex.getMessage());

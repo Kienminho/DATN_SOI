@@ -110,7 +110,7 @@ public class UserController {
     @GetMapping("get-info-mine")
     public Object getInfoMine() {
         try {
-            StaffAndShipperDTO s = staffAndShipperRepository.getInfoMine(Utils.idUserLogin);
+            StaffAndShipperDTO s = staffAndShipperRepository.getInfoMine(Utils.idStaffAndShipperLogin);
             return Response.createSuccessResponseModel(0, s);
         } catch (Exception e) {
             return Response.createErrorResponseModel(e.getMessage(), false);

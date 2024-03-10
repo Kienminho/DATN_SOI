@@ -11,12 +11,15 @@ import java.util.Random;
 
 public class Utils {
     public static User userLogin;
+    public static String userNameLogin = "";
+    public static Long idUserLogin = 0L;
     public static StaffAndShipperDTO staffAndShipperLogin;
+    public static String staffAndShipperName = "";
+    public static Long idStaffAndShipperLogin = 0L;
 
     public static Cart cart;
     public static int totalProductInCart = 0;
-    public static String userNameLogin = "";
-    public static Long idUserLogin = 3L;
+
     public static boolean isLogin = false;
     static SecureRandom random = new SecureRandom();
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

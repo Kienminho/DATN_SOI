@@ -397,7 +397,6 @@ fileInput.on("change", function (e) {
             },
         });
     };
-
     reader.readAsBinaryString(file);
 });
 
