@@ -56,7 +56,7 @@ public class GuaranteeController {
     @GetMapping("get-history-register-guarantee")
     public Object getHistoryRegisterGuarantee() {
         try {
-            List<RegisterGuarantee> registerGuarantees = registerGuaranteeRepository.getRegisterGuaranteeByIdUser(Utils.userLogin.getId());
+            List<RegisterGuarantee> registerGuarantees = registerGuaranteeRepository.getRegisterGuaranteeByIdUser(Utils.staffAndShipperLogin.getId());
             return Response.createSuccessResponseModel(registerGuarantees.size(), registerGuarantees);
         }
         catch (Exception e) {
@@ -99,7 +99,7 @@ public class GuaranteeController {
     @GetMapping("get-guarantee-by-employee")
     public Object getGuaranteeByEmployee() {
         try {
-            List<RegisterGuarantee> registerGuarantees = registerGuaranteeRepository.getRegisterGuaranteeByIdStaff(Utils.userLogin.getFullName());
+            List<RegisterGuarantee> registerGuarantees = registerGuaranteeRepository.getRegisterGuaranteeByIdStaff(Utils.staffAndShipperLogin.getFullName());
             return Response.createSuccessResponseModel(registerGuarantees.size(), registerGuarantees);
         }
         catch (Exception e) {
