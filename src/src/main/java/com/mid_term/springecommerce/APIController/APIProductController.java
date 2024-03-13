@@ -158,7 +158,7 @@ public class APIProductController {
 
     @GetMapping("get-cart-employee")
     public Object getCartOfEmployee() {
-        List<CartOfEmployee> carts = cartOfEmployeeRepository.getCartsByIdSalePeople(Utils.idUserLogin);
+        List<CartOfEmployee> carts = cartOfEmployeeRepository.getCartsByIdSalePeople(Utils.idStaffAndShipperLogin);
         return Response.createSuccessResponseModel(carts.size(), carts);
     }
 
