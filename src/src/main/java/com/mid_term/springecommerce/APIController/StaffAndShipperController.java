@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/staff-and-shipper/")
@@ -296,6 +297,10 @@ public class StaffAndShipperController {
     @GetMapping("statistic")
     public Object statistic() {
         try {
+            if(!Objects.equals(Utils.staffAndShipperLogin.getRoleName(), "ROLE_ADMIN")) {
+                return Response.createErrorResponseModel("Bạn không có quyền truy cập!", false);
+            }
+
             List<StaffAndShipper> listStaff = staffAndShipperRepository.getAllUser();
             List<StaffAndShipper> listShipper = staffAndShipperRepository.getAllShipper();
             List<User> listUser = user.getAllUser();

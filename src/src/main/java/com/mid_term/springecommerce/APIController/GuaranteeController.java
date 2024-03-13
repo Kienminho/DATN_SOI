@@ -44,6 +44,21 @@ public class GuaranteeController {
                 return Response.createErrorResponseModel("Sản phẩm không còn bảo hành", false);
             }
 
+            RegisterGuarantee rg  = registerGuaranteeRepository.getRegisterGuarantee(Utils.idUserLogin, req.getCodeGuarantee());
+            if(rg != null ) {
+
+                switch (rg.getStatus()) {
+                    case REGISTER, HANDEL -> {
+                        return Response.createErrorResponseModel("Bảo hành đang được xử lý, không thể đăng ký tiếp!", false);
+                    }
+                    case DONE ->  {
+                        return Response.createErrorResponseModel("Sản phẩm đã được bảo hành thành công!", false);
+                    }
+                    case CANCELED ->  {
+                        return Response.createErrorResponseModel("Sản phẩm không đủ điều kiện bảo hành!", false);
+                    }
+                }
+            }
             RegisterGuarantee registerGuarantee = new RegisterGuarantee(req.getCodeGuarantee(),Utils.userLogin.getId(), guarantee.getProductName(), Utils.userLogin.getFullName(), req.getAddress(), req.getPhone(), req.getDescription(), WarrantyStatus.REGISTER);
             registerGuaranteeRepository.save(registerGuarantee);
             return Response.createSuccessResponseModel(0, true);
@@ -56,7 +71,7 @@ public class GuaranteeController {
     @GetMapping("get-history-register-guarantee")
     public Object getHistoryRegisterGuarantee() {
         try {
-            List<RegisterGuarantee> registerGuarantees = registerGuaranteeRepository.getRegisterGuaranteeByIdUser(Utils.staffAndShipperLogin.getId());
+            List<RegisterGuarantee> registerGuarantees = registerGuaranteeRepository.getRegisterGuaranteeByIdUser(Utils.userLogin.getId());
             return Response.createSuccessResponseModel(registerGuarantees.size(), registerGuarantees);
         }
         catch (Exception e) {

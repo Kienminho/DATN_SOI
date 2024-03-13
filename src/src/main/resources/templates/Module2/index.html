@@ -96,14 +96,15 @@
                             <div class="card">
                                 <div class="d-flex align-items-end row">
                                     <div class="col-sm-7">
-                                        <div class="card-body">
+                                        <div class="card-body date-input">
                                             <div class="mb-3 row">
                                                 <label for="html5-datetime-local-input" class="col-md-2 col-form-label">Từ</label>
                                                 <div class="col-md-10">
                                                     <input
                                                             class="from-date form-control"
                                                             type="datetime-local"
-                                                            value="2024-02-01T12:30:00"
+                                                            pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" placeholder="YYYY-MM-DD"
+                                                            value=""
                                                             id="html5-datetime-local-input"
                                                             oninput="search()"
                                                     />
@@ -115,7 +116,8 @@
                                                     <input
                                                             class="to-date form-control"
                                                             type="datetime-local"
-                                                            value="2024-02-29T12:30:00"
+                                                            value=""
+                                                            pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" placeholder="YYYY-MM-DD"
                                                             id="html5-datetime-local-input"
                                                             oninput="search()"
                                                     />
@@ -191,7 +193,7 @@
                                 <div class="row row-bordered g-0">
                                     <table class="table">
                                         <thead>
-                                        <tr>
+                                        <tr class="tr">
                                             <th>Mã đơn hàng</th>
                                             <th>Người bán</th>
                                             <th>Người mua</th>

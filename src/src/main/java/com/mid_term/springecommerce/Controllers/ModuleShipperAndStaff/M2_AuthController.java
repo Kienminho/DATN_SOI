@@ -47,8 +47,8 @@ public class M2_AuthController {
     @GetMapping("logout")
     public String handelLogout() {
         Utils.isLogin = false;
-        Utils.idUserLogin = 0L;
-        Utils.userNameLogin = "";
+        Utils.idStaffAndShipperLogin = 0L;
+        Utils.staffAndShipperName = "";
         Utils.staffAndShipperLogin = null;
         return "redirect:/dashboard/auth/login";
     }

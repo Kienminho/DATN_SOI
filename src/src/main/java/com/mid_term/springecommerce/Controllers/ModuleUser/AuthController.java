@@ -31,6 +31,15 @@ public class AuthController {
         return "login";
     }
 
+    @GetMapping("logout")
+    public String handelLogout() {
+        Utils.isLogin = false;
+        Utils.idUserLogin = 0L;
+        Utils.userNameLogin = "";
+        Utils.userLogin = null;
+        return "redirect:/home";
+    }
+
     @GetMapping("register")
     public String renderRegister() {
         return "register";

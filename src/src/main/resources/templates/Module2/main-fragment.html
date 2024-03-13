@@ -41,37 +41,43 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/assets/js/config.js"></script>
     <script>
-        fetch("/api/users/get-info-mine")
-            .then((res) => res.json())
-            .then((res) => {
-                $(".user-name").text(res.data.username);
-                $(".role").text(res.data.role);
-                $("#avatar-user").attr("src", res.data.avatar ?? "/assets/img/avatars/1.png");
-                $("#sub-avatar").attr("src", res.data.avatar ?? "/assets/img/avatars/1.png");
-                id = res.data.id;
-                if (res.data.roleName === 'ROLE_ADMIN') {
-                    $(".home").removeClass("d-none");
-                    $(".employee-manager").removeClass("d-none");
-                    $(".product-manager").removeClass("d-none");
-                    $(".shipper-manager").removeClass("d-none");
-                    $(".warranty-manager").removeClass("d-none");
-                    $(".category-manager").removeClass("d-none");
-                    $(".order-manager").removeClass("d-none");
-                    $(".payment").removeClass("d-none");
-                }
-                else if(res.data.roleName === 'ROLE_EMPLOYEE') {
-                    $(".home").removeClass("d-none");
-                    $(".payment").removeClass("d-none");
-                    $(".order-manager").removeClass("d-none");
-                    $(".receive-warranty").removeClass("d-none");
-                }
-                else if(res.data.roleName === 'ROLE_SHIPPER') {
-                    $(".shipper").removeClass("d-none");
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            fetch("/api/users/get-info-mine")
+                .then((res) => res.json())
+                .then((res) => {
+                    sessionStorage.setItem('userInfo', JSON.stringify(res.data));
+                    handleUserInfo(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        function handleUserInfo(userInfo) {
+            $(".user-name").text(userInfo.username);
+            $(".role").text(userInfo.role);
+            $("#avatar-user").attr("src", userInfo.avatar ?? "/assets/img/avatars/1.png");
+            $("#sub-avatar").attr("src", userInfo.avatar ?? "/assets/img/avatars/1.png");
+            id = userInfo.id;
+            if (userInfo.roleName === 'ROLE_ADMIN') {
+                $(".home").removeClass("d-none");
+                $(".employee-manager").removeClass("d-none");
+                $(".product-manager").removeClass("d-none");
+                $(".shipper-manager").removeClass("d-none");
+                $(".warranty-manager").removeClass("d-none");
+                $(".category-manager").removeClass("d-none");
+                $(".order-manager").removeClass("d-none");
+                $(".payment").removeClass("d-none");
+            }
+            else if(userInfo.roleName === 'ROLE_EMPLOYEE') {
+                $(".home").removeClass("d-none");
+                $(".payment").removeClass("d-none");
+                $(".order-manager").removeClass("d-none");
+                $(".receive-warranty").removeClass("d-none");
+            }
+            else if(userInfo.roleName === 'ROLE_SHIPPER') {
+                $(".shipper").removeClass("d-none");
+                console.log(86);
+            }
+        }
+
     </script>
 </head>
 

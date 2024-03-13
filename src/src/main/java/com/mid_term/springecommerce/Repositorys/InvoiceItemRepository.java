@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface InvoiceItemRepository extends JpaRepository<InvoiceItem, Long> {
-    @Query("SELECT new com.mid_term.springecommerce.DTO.InvoiceItemResponse(inv.invoiceCode,p.name,i.quantity,i.unitPrice, i.createdDate) FROM InvoiceItem i JOIN i.invoice inv JOIN i.product p WHERE inv.invoiceCode=:id")
+    @Query("SELECT new com.mid_term.springecommerce.DTO.InvoiceItemResponse(inv.invoiceCode,p.name,i.quantity,i.unitPrice, i.createdDate) FROM InvoiceItem i JOIN i.invoice inv JOIN i.product p WHERE inv.invoiceCode=:id ORDER BY i.createdDate")
     List<InvoiceItemResponse> getDetailInvoice(@Param("id") String id);
 }

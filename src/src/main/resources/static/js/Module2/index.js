@@ -1,3 +1,22 @@
+let info = sessionStorage.getItem('userInfo');
+//parse json
+info = JSON.parse(info);
+if(info.roleName === "ROLE_SHIPPER") {
+    $(".date-input").addClass("d-none");
+    $(".tr").addClass("d-none");
+}
+let start = new Date();
+start.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+// Adjust for timezone offset
+start.setMinutes(start.getMinutes() - start.getTimezoneOffset());
+
+let end = new Date();
+end.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to the end of the day
+
+// Adjust for timezone offset
+end.setMinutes(end.getMinutes() - end.getTimezoneOffset());
+
 const tbody = $(".tbody");
 const tbodyDetails = $(".tbody-detail");
 const employee = $(".employee");
@@ -5,8 +24,8 @@ const invoice = $(".invoice");
 const user = $(".user");
 const money = $(".total-money");
 const quantity = $(".quantity");
-const fromDateDefault = $(".from-date").val();
-const toDateDefault = $(".to-date").val();
+const fromDateDefault = $(".from-date").val(start.toISOString().slice(0, 16));
+const toDateDefault = $(".to-date").val(end.toISOString().slice(0, 16));
 
 getData(fromDateDefault, toDateDefault);
 
