@@ -33,7 +33,7 @@ function displayShipper(arr) {
     category.empty();
     category.append(`<option selected>Chọn</option>`);
     arr.map((c) => {
-        let html = `<option value="${c.id}">${c.fullName}</option>`;
+        let html = `<option value="${c.id}">${c.userName}</option>`;
         category.append(html);
     });
 }
@@ -52,7 +52,10 @@ function displayOrders(arr) {
             <td class="date">${convertDate(i.orderDateTime) ?? "_"}</td>
             <td class="status"><span class="badge ${object.color}">${object.name}</span></td>
             <td class="payment-method">${i.paymentMethod === "T" ? "Ngân hàng" : "Tiền mặt"}</td>
-            <td class="total-money">${i.totalPrice ?? "_"}</td>
+            <td class="total-money">${Number(i.totalPrice).toLocaleString("vi", {
+            style: "currency",
+            currency: "VND",
+        }) ?? "_"}</td>
             <td>
       <div class="dropdown">
         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

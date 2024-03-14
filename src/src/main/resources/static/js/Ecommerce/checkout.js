@@ -9,18 +9,15 @@ let city = $('#city');
 let email = $('#email');
 let phone = $('#phone');
 let selectedValue = "";
+let shippingFee = 0;
 
 // Get all radio buttons with name "paymentType"
 const radioButtons = document.querySelectorAll('input[name="paymentType"]');
-
 // Add event listener for change event
 radioButtons.forEach(radioButton => {
     radioButton.addEventListener('change', function() {
         // Get the value of the selected radio button
         selectedValue = this.value;
-
-        // Log the selected value (you can use it for further processing)
-        console.log(selectedValue);
     });
 });
 
@@ -59,6 +56,9 @@ function handleOrder() {
                     window.location.href = "/home";
                     document.documentElement.style.setProperty('--cart-count', "'0'");
                 }
+                else {
+                    flashMessage(res.message, "error");
+                }
             })
             .catch(err => console.log(err))
     }
@@ -86,7 +86,8 @@ function displayCheckout(arr) {
                                 </tr>`
         tbody.append(html);
     })
-    CartSubtotalPrice.text(total.toLocaleString('vi-VN') + " đ");
+    displayFeeShipping(total);
+    CartSubtotalPrice.text((total-35000).toLocaleString('vi-VN') + " đ");
     OrderTotalPrice.text(total.toLocaleString('vi-VN') + " đ");
 }
 
@@ -109,4 +110,19 @@ function flashMessage(message, type) {
         showConfirmButton: false,
         timer: 1500,
     });
+}
+
+function displayFeeShipping(totalProduct) {
+    if(totalProduct >= 1000000) {
+        shippingFee = 0;
+        console.log(118)
+        $(".free-shipping").removeClass("d-none");
+        $(".shipping-fee").addClass("d-none");
+    }
+    else {
+        shippingFee = 35000;
+        total += shippingFee;
+        $(".free-shipping").addClass("d-none");
+        $(".shipping-fee").removeClass("d-none");
+    }
 }

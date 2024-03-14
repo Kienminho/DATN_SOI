@@ -135,6 +135,9 @@ public class APIProductController {
             Long id = Long.parseLong(req.get("productId"));
             int q = Integer.parseInt(req.get("quantity"));
             Product p = productRepository.getDetailProduct(id);
+            if(p.getCurrentQuantity() <=0)
+                return Response.createErrorResponseModel("Sản phẩm " + p.getName() + " đã hết hàng!", false);
+
             CartItem item = cartItemRepository.getCartItem(p, Utils.cart);
             if(item == null) {
                 cartItemRepository.save(new CartItem(q, p.getSalePrice(), p.getSalePrice(), Utils.cart, p));
@@ -195,7 +198,7 @@ public class APIProductController {
                 cartOfEmployeeRepository.save(c);
             }
             else {
-                CartOfEmployee newCart = new CartOfEmployee(Utils.idUserLogin, p.getId(), p.getName(), p.getImageUrl(), p.getSalePrice(), 1, p.getSalePrice());
+                CartOfEmployee newCart = new CartOfEmployee(Utils.idStaffAndShipperLogin, p.getId(), p.getName(), p.getImageUrl(), p.getSalePrice(), 1, p.getSalePrice());
                 cartOfEmployeeRepository.save(newCart);
             }
             return Response.createSuccessResponseModel(0, true);
@@ -220,7 +223,7 @@ public class APIProductController {
 
     @GetMapping("get-info-cart-employee")
     public Object getInfoCartEmployee() {
-        List<CartOfEmployee> carts = cartOfEmployeeRepository.getCartsByIdSalePeople(Utils.idUserLogin);
+        List<CartOfEmployee> carts = cartOfEmployeeRepository.getCartsByIdSalePeople(Utils.idStaffAndShipperLogin);
         int totalMoney = 0;
         int totalQuantity = 0;
         for (CartOfEmployee c : carts) {
@@ -290,6 +293,10 @@ public class APIProductController {
             //save order item
             for (OrderItemRequest item : req.getOrderItems()) {
                 Product p = productRepository.getDetailProduct(item.getProductId());
+
+                if(p.getCurrentQuantity()<=0) {
+                    return Response.createErrorResponseModel("Sản phẩm " + p.getName() + " đã hết hàng!", false);
+                }
                 OrderItem orderItem = new OrderItem(o, p, item.getQuantity(), item.getUnitPrice());
                 orderItemRepository.save(orderItem);
 

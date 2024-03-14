@@ -19,7 +19,6 @@ public class Utils {
 
     public static Cart cart;
     public static int totalProductInCart = 0;
-
     public static boolean isLogin = false;
     static SecureRandom random = new SecureRandom();
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

@@ -21,7 +21,7 @@ public interface StaffAndShipperRepository extends JpaRepository<StaffAndShipper
     @Query("SELECT u FROM StaffAndShipper u JOIN u.roles r where u.email =:email and r.roleName = 'ROLE_EMPLOYEE' and u.isDeleted = false")
     StaffAndShipper getUserByEmail(@Param("email") String email);
     @Query("SELECT new com.mid_term.springecommerce.DTO.StaffAndShipperDTO(u.Id, u.userName,u.password,u.fullName," +
-            "u.email,u.address,u.phoneNumber,u.avatar,r.roleName, u.activationToken, u.isActivated,u.firstLogin,u.isDeleted) FROM StaffAndShipper u JOIN u.roles r WHERE u.userName =:username")
+            "u.email,u.address,u.phoneNumber,u.avatar,u.activationToken, r.roleName, u.isActivated,u.firstLogin,u.isDeleted) FROM StaffAndShipper u JOIN u.roles r WHERE u.userName =:username")
     StaffAndShipperDTO getUserByName(@Param("username") String username);
     @Query("SELECT u FROM StaffAndShipper u where u.Id =:id")
     StaffAndShipper getUserById(@Param("id") Long id);

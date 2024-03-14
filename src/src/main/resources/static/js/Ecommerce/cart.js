@@ -3,8 +3,8 @@ const quantityInput = $(".quantity");
 const totalPrice = $(".total");
 const subtotal = $(".subtotal");
 const totalAmount = $(".total-amount");
+let shippingFee = 0;
 let setQuantity;
-
 
 fetch("/api/products/cart")
     .then(res => res.json())
@@ -21,7 +21,7 @@ function displayCart(arr) {
                                 <td class="product-thumbnail"><a href="#"><img src="${item.product.imageUrl}" alt="" /></a></td>
                                 <td class="product-name"><a href="#">${item.product.name}</a></td>
                                 <td class="product-price"><span class="amount">${item.product.salePrice.toLocaleString('vi-VN')} ₫</span></td>
-                                <td class="product-quantity"><input type="number" oninput="changeQuantity(this)" name="quantity" class="quantity" value="${item.quantity}" /></td>
+                                <td class="product-quantity"><input type="number" oninput="changeQuantity(this)" name="quantity" class="quantity" value="${item.quantity}"/></td>
                                 <td class="product-subtotal total">${item.totalPrice.toLocaleString('vi-VN')} ₫</td>
                                 <td class="product-remove"><a onclick="removeProduct(this)" href="#" data-product-id="${item.product.id}"><i class="fa fa-times"></i></a></td>
                             </tr>`
@@ -56,15 +56,22 @@ function removeProduct(element) {
 }
 
 function changeQuantity(element) {
-    const quantity = element.value;
-    const id = $(element).closest('tr').find('.id-product').text();
-    const  amount = $(element).closest('tr').find('.amount').text();
-    const price = parseInt(amount.replace(/[^\d.]/g, ''));
-    console.log(price)
-    const totalPrice = price * quantity * 1000
-    $(element).closest('tr').find('.total').text(totalPrice.toLocaleString('vi-VN'));
     clearTimeout(setQuantity);
     setQuantity = setTimeout(() => {
+        let quantity = element.value;
+        if(quantity < 1) {
+            quantity = 1;
+            element.value = quantity; // Set the input value to 1
+            flashMessage("Số lượng không thể nhỏ hơn 1!", "error");
+        }
+
+        const id = $(element).closest('tr').find('.id-product').text();
+        const  amount = $(element).closest('tr').find('.amount').text();
+        const price = parseInt(amount.replace(/[^\d.]/g, ''));
+        const totalPrice = price * quantity * 1000
+        displayFeeShipping(totalPrice);
+        $(element).closest('tr').find('.total').text(totalPrice.toLocaleString('vi-VN'));
+
         fetch("/api/products/change-quantity-in-cart", {
             method: "POST",
             headers: {
@@ -76,7 +83,7 @@ function changeQuantity(element) {
             .then(res => {
                 if(res.statusCode === 200)
                     document.documentElement.style.setProperty('--cart-count', "'" + res.data + "'");
-                    calculateTotal();
+                calculateTotal();
             })
             .catch(err => console.log(err))
 
@@ -89,7 +96,10 @@ function calculateTotal() {
         total += parseInt($(this).text().replace(/[^\d,]/g, '').replace(/,/g, '')) ;
         console.log(total);
     });
-    subtotal.text(total.toLocaleString('vi-VN')+ " đ");
+    displayFeeShipping(total);
+    let subTotal = total;
+    total += shippingFee;
+    subtotal.text(subTotal.toLocaleString('vi-VN')+ " đ");
     totalAmount.text(total.toLocaleString('vi-VN')+ " đ");
 }
 
@@ -101,4 +111,18 @@ function flashMessage(message, type) {
         showConfirmButton: false,
         timer: 1000,
     });
+}
+
+function displayFeeShipping(total) {
+    if(total >= 1000000) {
+        shippingFee = 0;
+        console.log(118)
+        $(".free-shipping").removeClass("d-none");
+        $(".shipping-fee").addClass("d-none");
+    }
+    else {
+        shippingFee = 35000;
+        $(".free-shipping").addClass("d-none");
+        $(".shipping-fee").removeClass("d-none");
+    }
 }

@@ -4,7 +4,8 @@ const password = $("#password");
 const messageError = $(".message-error");
 
 $(btnLogin).click(function () {
-    if (validate(username.val(), password.val())) {
+    let isValidate = validate(username.val(), password.val());
+    if (isValidate.code === true) {
         fetch("/api/users/login", {
             method: "POST",
             headers: {
@@ -30,19 +31,22 @@ $(btnLogin).click(function () {
             })
     }
     else {
-        displayErrorMessage("Vui lòng nhập đầy đủ thông tin!");
+        displayErrorMessage(isValidate.message);
     }
-
-
 });
 
 function validate(username, password) {
     //check password have length > 6
     if (password.length < 6) {
-        return false;
+        return { code: false, message: "Mật khẩu không thể ít hơn 6 ký tự!" };
+    }
+    //check if username is empty
+    if (username === "") {
+        return { code: false, message: "Tên người dùng không được để trống!" };
     }
 
-    return !(username === "");
+    //return null if validation passes
+    return { code: true, message: "Done" };
 }
 
 function displayErrorMessage(message) {

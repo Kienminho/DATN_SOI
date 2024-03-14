@@ -17,7 +17,7 @@ public class M2_HomeController {
         return "Module2/index";
     }
 
-    @GetMapping( "/index")
+    @GetMapping("/index")
     public String renderIndex()
     {
         if (!Utils.isLogin)

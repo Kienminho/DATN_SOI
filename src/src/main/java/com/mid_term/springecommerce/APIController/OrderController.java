@@ -79,7 +79,7 @@ public class OrderController {
     public Object exportInvoiceByOrder(@PathVariable Long id) {
         try {
             Order order = orderRepository.getDetailById(id);
-            StaffAndShipper staffAndShipper = staffAndShipperRepository.getUserById(Utils.idUserLogin);
+            StaffAndShipper staffAndShipper = staffAndShipperRepository.getUserById(Utils.idStaffAndShipperLogin);
             List<OrderItem> items = orderItemRepository.getDetailByOrderId(id);
             //create invoice
             String invoiceCode = String.valueOf(Utils.generateSixDigitNumber());
