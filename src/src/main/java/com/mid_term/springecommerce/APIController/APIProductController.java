@@ -5,6 +5,7 @@ import com.mid_term.springecommerce.DTO.InvoiceRequest;
 import com.mid_term.springecommerce.DTO.ProductDTO;
 import com.mid_term.springecommerce.DTO.ProductRequest;
 import com.mid_term.springecommerce.Models.Entity.*;
+import com.mid_term.springecommerce.Models.RequestModel.CategoryRequest;
 import com.mid_term.springecommerce.Models.RequestModel.OrderItemRequest;
 import com.mid_term.springecommerce.Models.RequestModel.OrderRequest;
 import com.mid_term.springecommerce.Models.ResponseModel.UserResponse;
@@ -438,6 +439,22 @@ public class APIProductController {
             }
             productRepository.saveAll(products);
             return Response.createSuccessResponseModel(products.size(), true);
+        }
+        catch (Exception e) {
+            return Response.createErrorResponseModel(e.getMessage(), false);
+        }
+    }
+
+    @PostMapping("import-category-excel")
+    public Object importCategoryExcel(@RequestBody List<CategoryRequest> req) {
+        try {
+            List<Category> categories = new ArrayList<>();
+            for (CategoryRequest c : req) {
+                Category newCategory = new Category(c.getName(), c.getDescription());
+                categories.add(newCategory);
+            }
+            categoryRepository.saveAll(categories);
+            return Response.createSuccessResponseModel(categories.size(), true);
         }
         catch (Exception e) {
             return Response.createErrorResponseModel(e.getMessage(), false);

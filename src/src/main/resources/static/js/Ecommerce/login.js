@@ -37,15 +37,16 @@ $(btnLogin).click(function () {
 
 function validate(username, password) {
     //check password have length > 6
-    if (password.length < 6) {
-        return { code: false, message: "Mật khẩu không thể ít hơn 6 ký tự!" };
-    }
-    //check if username is empty
     if (username === "") {
         return { code: false, message: "Tên người dùng không được để trống!" };
     }
+    else if(password === "") {
+        return { code: false, message: "Mật khẩu không được để trống!" };
+    }
+    if (password.length < 6) {
+        return { code: false, message: "Mật khẩu không thể ít hơn 6 ký tự!" };
+    }
 
-    //return null if validation passes
     return { code: true, message: "Done" };
 }
 

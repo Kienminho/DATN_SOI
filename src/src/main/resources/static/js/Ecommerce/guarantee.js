@@ -4,7 +4,7 @@ const btnUpdateInfo = $(".btn-update-profile");
 const btnRegisterGuarantee = $(".btn-register-guarantee");
 //fetch data
 //lấy thông tin user đăng nhập
-fetch("/api/users/get-info-mine")
+fetch("/api/users/check-login")
     .then(res => res.json())
     .then(data => {
         displayProfile(data.data);

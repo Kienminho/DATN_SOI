@@ -27,4 +27,9 @@ public class Category {
     private Date createdDate = new Date();
     @Column(columnDefinition = "datetime")
     private Date updatedDate;
+
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

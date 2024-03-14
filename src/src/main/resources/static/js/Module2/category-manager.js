@@ -254,19 +254,13 @@ fileInput.on("change", function (e) {
         const jsonData = XLSX.utils.sheet_to_json(sheet);
         const arrayOfObjects = jsonData.map(row => {
             return {
-                name: row['Tên sản phẩm'],
-                categoryName: row['Loại sản phẩm'],
-                image: row['Hình ảnh'],
+                name: row['Tên danh mục'],
                 description: row['Mô tả'],
-                quantity: row['Số lượng hiện có'],
-                createdDate: new Date(row['Ngày nhập']),
-                importPrice: row['Giá nhập'],
-                priceSale: row['Giá bán'],
             }
         });
 
         $.ajax({
-            url: "/api/products/import-product-excel",
+            url: "/api/products/import-category-excel",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(arrayOfObjects),
