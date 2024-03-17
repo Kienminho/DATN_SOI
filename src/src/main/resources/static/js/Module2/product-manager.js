@@ -375,7 +375,6 @@ fileInput.on("change", function (e) {
                 priceSale: row['Giá bán'],
             }
         });
-
         $.ajax({
             url: "/api/products/import-product-excel",
             type: "POST",
@@ -400,12 +399,21 @@ fileInput.on("change", function (e) {
     reader.readAsBinaryString(file);
 });
 
-//hàm lấy cắt chuỗi để lấy ram và rom
-function extractNumbers(str) {
-    const regex = /\b\d+\b/g;
-    const matches = str.match(regex);
+let timer;
+let keywords = $(".keywords")
+function searchProduct() {
+    const val = keywords.val() || "all";
+    console.log(val);
 
-    return matches ? matches.map(Number) : null;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+        fetch(`/api/products/searchs?keyword=${val}&pageIndex=${1}&pageSize=${1000}`)
+            .then((res) => res.json())
+            .then((res) => {
+                displayProduct(res.data);
+            })
+            .catch((err) => console.log(err));
+    }, 700);
 }
 
 //convert string to number

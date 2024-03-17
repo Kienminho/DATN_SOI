@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query("SELECT p FROM Product p WHERE p.is_deleted = false")
+    @Query("SELECT p FROM Product p WHERE p.is_deleted = false order by p.salePrice desc ")
     List<Product> getAllProduct();
-    @Query("SELECT p FROM Product p WHERE p.currentQuantity > 0 and p.is_deleted = false")
+    @Query("SELECT p FROM Product p WHERE p.currentQuantity > 0 and p.is_deleted = false order by p.salePrice desc")
     List<Product> getAvailableProduct();
     @Query("SELECT p FROM Product p WHERE p.category = :category and p.is_deleted = false")
     List<Product> getProductsByCategory(@Param("category")Category category);
@@ -28,7 +28,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "OR CAST(p.id AS string) LIKE concat('%', :keyword, '%') " +
             "OR CAST(p.importPrice AS string) LIKE concat('%', :keyword, '%') " +
             "AND p.currentQuantity > 0 " +
-            "AND p.is_deleted = false")
+            "AND p.is_deleted = false order by p.salePrice desc ")
     List<Product> searchProducts(@Param("keyword") String keyword);
 
     @Modifying

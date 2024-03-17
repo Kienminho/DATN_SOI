@@ -19,7 +19,8 @@ function displayData(arr) {
         let status = (i.status === 1) ? "pe-none" : "";
         let object = getStatus(i.status);
         let html = `<tr>
-            <td class="id">${i.id}</td>
+            <td class="id d-none">${i.id}</td>
+            <td>${index+1}</td>
             <<td class="name">${i.customerName ?? "_"}</td>
             <td class="phone">${i.customerPhone ?? "_"}</td>
             <td class="address">${i.customerAddress ?? "_"}</td>

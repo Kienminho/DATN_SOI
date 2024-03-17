@@ -138,7 +138,7 @@ function searchProduct() {
 
     clearTimeout(timer);
     timer = setTimeout(() => {
-        fetch(`/api/products/searchs?keyword=${val}&pageIndex=${1}&pageSize=${100}`)
+        fetch(`/api/products/searchs?keyword=${val}&pageIndex=${1}&pageSize=${1000}`)
             .then((res) => res.json())
             .then((res) => {
                 displayProduct(res.data);

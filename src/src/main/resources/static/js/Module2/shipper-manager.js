@@ -66,7 +66,7 @@ function createEmployee() {
 }
 
 function deletedProduct(element) {
-    $(deletedModal).modal("show");
+    deletedModal.modal("show");
     tr = $(element).closest("tr");
     id = $(tr).find(".id").text();
 }

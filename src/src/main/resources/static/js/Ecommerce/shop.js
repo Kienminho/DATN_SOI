@@ -1,4 +1,5 @@
 const wrapperProducts = $(".wrapper-product");
+const containerCategory = $(".category-container");
 const select = $(".cust-select");
 const sliderRange = $("#slider-range");
 const productsPerPage = 12;
@@ -7,6 +8,31 @@ let category = urlParams.get('category') || 'Dây chuyền';
 let pageIndex = urlParams.get('pageIndex') || 1
 let currentData;
 let sliderTimer;
+
+//fetch data
+getCategories();
+function getCategories() {
+    fetch("/api/categories/get-list-category")
+        .then(res => res.json())
+        .then(res => {
+            displayCategories(res.data);
+        })
+        .catch(err => console.log(err));
+}
+
+function displayCategories(data) {
+    containerCategory.empty();
+    data.map((category, index) => {
+        const isChecked = index === 0 ? 'checked' : '';
+        let html = `<li> <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ${isChecked} onchange="uncheckOtherCheckboxes(this)"> ${category.categoryName}
+                                </label>
+                            </div>`
+        containerCategory.append(html);
+    });
+
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     fetchData(category, 1);

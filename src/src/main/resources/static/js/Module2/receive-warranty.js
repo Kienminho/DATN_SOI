@@ -19,7 +19,7 @@ function displayData(arr) {
             <td>${item.nameProduct}</td>
             <td>${item.description}</td>
             <td>${convertDate(item.complainDate)}</td>
-            <td>${convertDate(item.guaranteeDate ?? '')?? '_'}</td>
+            <td>${convertDate(item.guaranteeDate)}</td>
             <td>
                 <button class="btn btn-sm btn-success" onclick="doneWarranty(this)">Hoàn tất</button>
                 <button class="btn btn-sm btn-danger" onclick="refuseWarranty(this)">Từ chối</button>
@@ -76,6 +76,7 @@ function refuseWarranty(e) {
 }
 
 function convertDate(date) {
+    if (!date) return "_";
     return new Date(date).toLocaleDateString("vi-VN");
 }
 
