@@ -479,7 +479,7 @@ public class APIProductController {
                 userRepository.save(newUser);
             }
             String invoiceCode = String.valueOf(Utils.generateSixDigitNumber());
-            StaffAndShipper u  = staffAndShipperRepository.getUserById(Utils.idUserLogin);
+            StaffAndShipper u  = staffAndShipperRepository.getUserById(Utils.idStaffAndShipperLogin);
 
             //create invoice
             Invoice invoice = new Invoice(invoiceCode, req.getFullName(), u, req.getReceiveMoney(), req.getMoneyBack(), req.getTotalMoney(), req.getQuantity(), new Date());
